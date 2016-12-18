@@ -32,9 +32,9 @@ public class MainService extends Service {
 
     private void createView(){
 
-
         MarqueeTextView tv = new MarqueeTextView(getApplicationContext());
-        tv.setText("abcdefghijklmnopqrstuvwxyz");
+        tv.setTextAndScroll("abcdefghijklmnopqrstuvwxyz");
+
         ((WindowManager)getApplicationContext()
                 .getSystemService(Context.WINDOW_SERVICE))
                 .addView(tv, WindowParams.CreateParams(null,false));

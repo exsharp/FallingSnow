@@ -94,12 +94,14 @@ class SnowFlake {
 
     public static SnowFlake create(int width, int height, Paint paint) {
         Random random = new Random();
-        int x = random.getRandom(width);
-        int y = random.getRandom(height);
-        Point position = new Point(x, y);
         float angle = random.getRandom(ANGLE_SEED) / ANGLE_SEED * ANGE_RANGE + HALF_PI - HALF_ANGLE_RANGE;
         float increment = random.getRandom(INCREMENT_LOWER, INCREMENT_UPPER);
         float flakeSize = random.getRandom(FLAKE_SIZE_LOWER, FLAKE_SIZE_UPPER);
+
+        int x = random.getRandom(width);
+        //int y = random.getRandom(height);
+        int y = (int) (-flakeSize - 1);;
+        Point position = new Point(x, y);
         return new SnowFlake(random, position, angle, increment, flakeSize, paint);
     }
 

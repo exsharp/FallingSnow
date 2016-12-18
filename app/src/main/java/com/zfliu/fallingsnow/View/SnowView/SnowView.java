@@ -17,10 +17,11 @@ public class SnowView extends View {
     private WindowParams params = null;
 
     private static final int NUM_SNOWFLAKES = 100;
-    private static final int DELAY = 5;
+    private static final int REDRAW_DELAY = 5;
+    private static final int CREATE_SNOW_DELAY = 300;
+    private static final int CREATE_SNOW_EACH_TIME = 2;
 
-    private SnowFlake[] snowflakes;
-    private ArrayList<SnowFlake> snowflakes;
+    private ArrayList<SnowFlake> snowflakes = new ArrayList<>();
 
     public SnowView(Context context) {
         super(context);
@@ -39,22 +40,33 @@ public class SnowView extends View {
         return params;
     }
 
-    protected void resize(int width, int height) {
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.FILL);
-        snowflakes = new SnowFlake[NUM_SNOWFLAKES];
-        for (int i = 0; i < NUM_SNOWFLAKES; i++) {
-            snowflakes[i] = SnowFlake.create(width, height, paint);
-            Log.d("TAG",width + " " + height);
-        }
-    }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (w != oldw || h != oldh) {
-            resize(w, h);
+            final int width = w;
+            final int height = h;
+            final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+            paint.setColor(Color.WHITE);
+            paint.setStyle(Paint.Style.FILL);
+
+            snowflakes.clear();
+
+            getHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (snowflakes.size() >= NUM_SNOWFLAKES){
+                        removeCallbacks(this);
+                    }else{
+                        for (int i = 0; i < CREATE_SNOW_EACH_TIME; ++i) {
+                            SnowFlake snow = SnowFlake.create(width, height, paint);
+                            snowflakes.add(snow);
+                        }
+                        postDelayed(this,CREATE_SNOW_DELAY);
+                    }
+                }
+            });
         }
     }
 
@@ -64,7 +76,7 @@ public class SnowView extends View {
         for (SnowFlake snowFlake : snowflakes) {
             snowFlake.draw(canvas);
         }
-        getHandler().postDelayed(runnable, DELAY);
+        getHandler().postDelayed(runnable, REDRAW_DELAY);
     }
 
     private Runnable runnable = new Runnable() {
@@ -73,13 +85,4 @@ public class SnowView extends View {
             invalidate();
         }
     };
-
-    private Runnable createSnow = new Runnable(){
-        @Override
-        public void run() {
-            //生成雪花
-            if ()
-            removeCallbacks(this);
-        }
-    }
 }

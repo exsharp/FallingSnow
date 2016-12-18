@@ -16,5 +16,23 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this,MainService.class);
         startService(intent);
+        final MarqueeTextView view = (MarqueeTextView)findViewById(R.id.marqueeTextView);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.setTextAndScroll("abcdefghijklmnopqrstuvwxyz");
+                    }
+                });
+            }
+        }).start();
+
     }
 }

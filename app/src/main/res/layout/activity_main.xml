@@ -15,8 +15,12 @@
         android:text="测试"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <com.zfliu.fallingsnow.View.PngSnowView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <com.zfliu.fallingsnow.View.MarqueeTextView
+        android:id="@+id/marqueeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <!--<com.zfliu.fallingsnow.View.PngSnowView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
 
 </LinearLayout>
