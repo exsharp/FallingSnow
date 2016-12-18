@@ -3,46 +3,67 @@ package com.zfliu.fallingsnow.Porfermor;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.WindowManager;
 
+import com.zfliu.fallingsnow.R;
+import com.zfliu.fallingsnow.Utils.WindowMgr;
 import com.zfliu.fallingsnow.Utils.WindowParams;
 import com.zfliu.fallingsnow.View.MarqueeTextView;
 import com.zfliu.fallingsnow.View.SnowView.SnowView;
 
 public class MainService extends Service {
 
-    private SnowView snowView = null;
+    private boolean hasInit = false; // 是否已经初始化
 
-    public MainService() {
-    }
+    private MediaPlayer mediaPlayer = null;
+    private MarqueeTextView marqueeTextView = null;
+    private SnowView snowView = null;
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        // throw new UnsupportedOperationException("Not yet implemented");
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        createView();
+        if (!hasInit){
+            hasInit = true;
+            createView();
+        }
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        destroyView();
+        super.onDestroy();
     }
 
     private void createView(){
 
-        MarqueeTextView tv = new MarqueeTextView(getApplicationContext());
-        tv.setTextAndScroll("abcdefghijklmnopqrstuvwxyz");
-
-        ((WindowManager)getApplicationContext()
-                .getSystemService(Context.WINDOW_SERVICE))
-                .addView(tv, WindowParams.CreateParams(null,false));
-
         snowView = new SnowView(getApplicationContext());
-        ((WindowManager)getApplicationContext()
-                .getSystemService(Context.WINDOW_SERVICE))
-                .addView(snowView,snowView.getWindowParams());
+        marqueeTextView = new MarqueeTextView(getApplicationContext());
+        marqueeTextView.setTextAndScroll("abcdefghijklmnopqrstuvwxyz");
 
+        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.bgm);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                stopSelf();
+            }
+        });
+        mediaPlayer.start();
+
+        WindowMgr.addView(marqueeTextView,WindowParams.CreateParams(null,false));
+        WindowMgr.addView(snowView,snowView.getWindowParams());
+    }
+
+    private void destroyView(){
+        mediaPlayer.stop();
+        WindowMgr.removeView(marqueeTextView);
+        WindowMgr.removeView(snowView);
     }
 }

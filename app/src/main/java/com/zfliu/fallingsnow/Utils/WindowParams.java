@@ -47,4 +47,13 @@ public class WindowParams extends LayoutParams {
 
         return params;
     }
+
+    public static WindowParams CreateWrapContentParams(){
+        WindowParams params = new WindowParams();
+        params.defaultParams();
+        params.height = LayoutParams.WRAP_CONTENT;
+        params.width = LayoutParams.MATCH_PARENT;
+
+        return params;
+    }
 }
