@@ -45,8 +45,6 @@ public class PngSnowView extends View {
         center_y = (int)(bitmap.getHeight() * scale / 2);
 
         matrix.setScale(scale,scale,center_x,center_y);
-
-
     }
 
     @Override
