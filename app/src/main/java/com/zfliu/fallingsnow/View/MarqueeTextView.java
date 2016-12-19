@@ -24,6 +24,9 @@ public class MarqueeTextView extends TextView implements Runnable {
     private int SCROLL_DELAYED = 20;   // 每次滚动间隔
     private static final int BEGIN_TO_SCROLL_DELAYED = 1 * 1000; // 两次滚动之间间隔
 
+    private static final int TEXT_SIZE = 35;
+    private static final int BG_ALPHA = 50;
+
     public MarqueeTextView(Context context) {
         super(context);
         init();
@@ -41,7 +44,7 @@ public class MarqueeTextView extends TextView implements Runnable {
 
     private void init(){
         setSingleLine(true);
-        setTextSize(50);
+        setTextSize(TEXT_SIZE);
     }
 
     public void startScroll() {
@@ -49,7 +52,7 @@ public class MarqueeTextView extends TextView implements Runnable {
         removeCallbacks(this);  // 清空队列
         postDelayed(this, 0);  // 开始滚动时间
         setBackgroundColor(Color.BLACK);
-        getBackground().setAlpha(30);
+        getBackground().setAlpha(BG_ALPHA);
     }
 
     public void setTextAndScroll(CharSequence text){

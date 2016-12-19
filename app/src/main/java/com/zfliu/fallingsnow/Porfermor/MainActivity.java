@@ -38,29 +38,13 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "欢迎来到主界面", Toast.LENGTH_SHORT).show();
         }
-
-//        startService(intent);
-//        final MarqueeTextView view = (MarqueeTextView)findViewById(R.id.marqueeTextView);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(2000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        view.setTextAndScroll("abcdefghijklmnopqrstuvwxyz");
-//                    }
-//                });
-//            }
-//        }).start();
     }
 
     public void OnClickA(View view){
         startService(intent);
+        Intent MyIntent = new Intent(Intent.ACTION_MAIN);
+        MyIntent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(MyIntent);
     }
 
     public void OnClickB(View view){
