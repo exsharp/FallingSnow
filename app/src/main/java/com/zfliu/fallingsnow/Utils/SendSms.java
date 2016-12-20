@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+
+import com.zfliu.fallingsnow.CtxApplication;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -30,12 +33,12 @@ public class SendSms {
             IMSI = telephonyManager.getSubscriberId();
             // IMSI号前面3位460是国家，紧接着后面2位00 02是中国移动，01是中国联通，03是中国电信。
             System.out.println(IMSI);
-            if (IMSI.startsWith("46000") || IMSI.startsWith("46002")) {
-                ProvidersName = "中国移动";
-            } else if (IMSI.startsWith("46001")) {
+            if (IMSI.startsWith("46001")) {
                 ProvidersName = "中国联通";
             } else if (IMSI.startsWith("46003")) {
                 ProvidersName = "中国电信";
+            } else if (IMSI.startsWith("4600")) {
+                ProvidersName = "中国移动";
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -69,7 +72,7 @@ public class SendSms {
         if(PhoneNumber.length()!=11){
             return false;
         }else{
-            System.out.println("PhoneNumber:"+PhoneNumber);
+            CtxApplication.setPhoneNumber(PhoneNumber);
             SharedPreferences pref = cxt.getSharedPreferences("fallingSnowPref", MODE_PRIVATE);
             if(pref.getString("PhoneNumber","0")!=PhoneNumber){
                 SharedPreferences.Editor editor = pref.edit();

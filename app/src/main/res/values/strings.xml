@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FallingSnow</string>
+    <string name="SHARE_PRF">fallingSnowPref</string>
 </resources>
