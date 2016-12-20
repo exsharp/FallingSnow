@@ -2,6 +2,9 @@ package com.zfliu.fallingsnow.Utils;
 
 import android.app.AppOpsManager;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Binder;
 import android.os.Build;
 
@@ -46,5 +49,17 @@ public class JudgeOpsRight {
             return false;
         }
         return true;
+    }
+
+    public boolean CheckNetwork(Context context){
+        if(context!=null){
+            ConnectivityManager connectivityManager =
+                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if(networkInfo!=null){
+                return networkInfo.isAvailable();
+            }
+        }
+        return false;
     }
 }

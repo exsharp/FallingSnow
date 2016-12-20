@@ -17,7 +17,7 @@ public class SmsFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sms_fragment,container,false);
+        View view = inflater.inflate(R.layout.fragment_sms,container,false);
         return view;
     }
 }

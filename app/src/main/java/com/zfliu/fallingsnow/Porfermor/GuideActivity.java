@@ -1,15 +1,20 @@
 package com.zfliu.fallingsnow.Porfermor;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.R;
 import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
+import com.zfliu.fallingsnow.Utils.SendSms;
+import com.zfliu.fallingsnow.Utils.SmsObserver;
 import com.zfliu.fallingsnow.View.AlterWinFragment;
 import com.zfliu.fallingsnow.View.SmsFragment;
 
@@ -19,16 +24,28 @@ import com.zfliu.fallingsnow.View.SmsFragment;
 
 public class GuideActivity extends AppCompatActivity {
     Intent intent = null;
-    JudgeOpsRight judgeOpsRight;
-    android.app.FragmentManager fragmentManager = null;
-    android.app.FragmentTransaction beginTransaction = null;
-    AlterWinFragment alterWinFragment;
-    SmsFragment smsFragment;
+    private JudgeOpsRight judgeOpsRight;
+    private android.app.FragmentManager fragmentManager = null;
+    private android.app.FragmentTransaction beginTransaction = null;
+    private AlterWinFragment alterWinFragment;
+    private SmsFragment smsFragment;
+    private SendSms sendSms;
+    private SmsObserver smsObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("info","GuideActivity-->onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide);
+
+        sendSms = new SendSms(CtxApplication.getContext());
+
+        /**
+         * 注册短信Listener
+         */
+        smsObserver = new SmsObserver(new Handler(),this);
+        Uri smsUri = Uri.parse("content://sms");
+        getContentResolver().registerContentObserver(smsUri, true,smsObserver);
 
         judgeOpsRight = new JudgeOpsRight();
 
@@ -48,6 +65,10 @@ public class GuideActivity extends AppCompatActivity {
                 }else if(judgeOpsRight.checkOp(this,14)!=true){
                     Toast.makeText(this,"未开启读取短信权限",Toast.LENGTH_SHORT).show();
                 }else{
+                    SharedPreferences pref = getSharedPreferences("fallingSnowPref",MODE_PRIVATE);
+                    if(sendSms.getPhoneNumber()==false && (pref.getString("PhoneNumber","0").length()!=11)){
+                        sendSms.SendChaXunPhoneNumberSms();
+                    }
                     Toast.makeText(this,"短信权限设置完成，下一步",Toast.LENGTH_SHORT).show();
                     beginTransaction = fragmentManager.beginTransaction();
                     alterWinFragment = new AlterWinFragment();
@@ -64,6 +85,12 @@ public class GuideActivity extends AppCompatActivity {
                 }else {
                     //替换当前fragment为短信权限fragment
                     Toast.makeText(this,"已开启悬浮窗权限",Toast.LENGTH_SHORT).show();
+                    String phoneNumber = getSharedPreferences("fallingSnowPref",MODE_PRIVATE)
+                            .getString("PhoneNumber","13800138000");
+                    System.out.println("PhoneNumber"+phoneNumber);
+                    if(phoneNumber.length()==11&&phoneNumber!="13800138000"){
+                        Toast.makeText(this,"本机号码为："+phoneNumber,Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
 
@@ -76,5 +103,17 @@ public class GuideActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("info","GuideActivity-->onStop");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onStop();
+        Log.i("info","GuideActivity-->onResume");
     }
 }

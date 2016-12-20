@@ -43,4 +43,12 @@
         android:onClick="OnClickC"
         android:layout_gravity="right"/>
 
+    <Button
+        android:text="检测网络情况"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="OnClickD"
+        android:id="@+id/btn_testNetWork"
+        android:textSize="15sp"/>
+
 </LinearLayout>

@@ -5,11 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.content.SharedPreferences;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.zfliu.fallingsnow.Network.HTTP;
 import com.zfliu.fallingsnow.R;
 import com.zfliu.fallingsnow.View.GifView;
+import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         intent = new Intent(this,MainService.class);
 
@@ -56,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
     public void OnClickC(View view){
         Intent intent = new Intent(this,GuideActivity.class);
         startActivity(intent);
+    }
+
+    public void OnClickD(View view){
+        if((new JudgeOpsRight()).CheckNetwork(MainActivity.this)==true){
+            Toast.makeText(MainActivity.this,"网络连接正常",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(MainActivity.this,"网络连接异常",Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
