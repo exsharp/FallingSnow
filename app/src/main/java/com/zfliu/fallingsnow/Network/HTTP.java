@@ -17,7 +17,7 @@ public class HTTP {
     private static String TAG_PHONE = "Number";
     private static String TAG_CONTENT = "Content";
 
-    private static String host = "192.168.191.1";
+    private static String host = "5tangs.com";
     private static int port = 8012;
     private static String GetAct = "getInfo";
     private static String PostAct = "postInfo";
@@ -38,7 +38,7 @@ public class HTTP {
                 .build();
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
-                .host(host).port(8012)
+                .host(host).port(port)
                 .addPathSegment(PostAct)
                 .build();
         Request request = new Request.Builder()
@@ -55,7 +55,7 @@ public class HTTP {
                 String ret = response.body().string();
                 listener.Ok(ret);
             }
-        } catch (IOException e){
+        } catch (Exception e){
             listener.Error();
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class HTTP {
         OkHttpClient client = new OkHttpClient();
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
-                .host(host).port(8012)
+                .host(host).port(port)
                 .addPathSegment(GetAct)
                 .addQueryParameter(TAG_PHONE,number)
                 .build();
@@ -86,7 +86,7 @@ public class HTTP {
             Response response = client.newCall(request).execute();
             String ret = response.body().string();
             listener.Ok(ret);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             listener.Error();
         }

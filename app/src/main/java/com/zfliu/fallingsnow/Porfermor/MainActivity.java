@@ -7,9 +7,9 @@ import android.view.View;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import com.cunoraz.gifview.library.GifView;
 import com.zfliu.fallingsnow.Network.HTTP;
 import com.zfliu.fallingsnow.R;
+import com.zfliu.fallingsnow.View.GifView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,9 +21,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         intent = new Intent(this,MainService.class);
 
+        GifView view = (GifView)findViewById(R.id.gif);
+        view.setGifResource(R.raw.chr);
         /**
          * 1、判断是否是安装后的首次启动
          */
+        HTTP.Get("12345",null);
 
         SharedPreferences pref = getSharedPreferences("fallingSnowPref", MODE_PRIVATE);
         if (pref.getBoolean("startFirst", true)) {

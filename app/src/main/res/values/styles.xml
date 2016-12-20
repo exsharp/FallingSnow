@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- For GifView Declaration -->
+    <style name="Widget.GifView" parent="@android:style/Widget"/>
+
 </resources>

@@ -53,7 +53,7 @@ public class SnowView extends View {
 
             snowflakes.clear();
 
-            getHandler().post(new Runnable() {
+            post(new Runnable() {
                 @Override
                 public void run() {
                     if (snowflakes.size() >= NUM_SNOWFLAKES){
@@ -76,9 +76,8 @@ public class SnowView extends View {
         for (SnowFlake snowFlake : snowflakes) {
             snowFlake.draw(canvas);
         }
-        getHandler().postDelayed(runnable, REDRAW_DELAY);
+        postDelayed(runnable, REDRAW_DELAY);
     }
-
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
