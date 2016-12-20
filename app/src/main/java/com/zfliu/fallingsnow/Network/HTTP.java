@@ -17,7 +17,7 @@ public class HTTP {
     private static String TAG_PHONE = "Number";
     private static String TAG_CONTENT = "Content";
 
-    private static String host = "192.168.191.1";
+    private static String host = "5tangs.com";
     private static int port = 8012;
     private static String GetAct = "getInfo";
     private static String PostAct = "postInfo";
