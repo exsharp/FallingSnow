@@ -24,7 +24,6 @@ public class SmsObserver extends ContentObserver {
      *
      * @param hadler The handler to run {@link #onChange} on, or null if none.
      */
-    private static String smsContent;
     private Context mContext;
 
     public SmsObserver(Handler handler, Context mContext) {
@@ -44,10 +43,9 @@ public class SmsObserver extends ContentObserver {
             String body = cursor.getString(cursor.getColumnIndex("body"));
             String date = cursor.getString(cursor.getColumnIndex("date"));
             if(address.equals("10086")){
-                smsContent = body;
-                System.out.println("Body:"+smsContent);
-                boolean status = GetPhoneNumberFromSMSText(smsContent);
-                if(status == true){
+                System.out.println("Body:"+body);
+                boolean status = GetPhoneNumberFromSMSText(body);
+                if(status){
                     System.out.println("获取手机号码成功");
                 }else{
                     System.out.println("获取手机号码失败");
@@ -69,10 +67,10 @@ public class SmsObserver extends ContentObserver {
         for(String str:list){
             if(str.length()==11){
                 SharedPreferences pref = this.mContext.getSharedPreferences("fallingSnowPref",Context.MODE_PRIVATE);
-                if(pref.getString("PhoneNumber","0")!=str){
+                if(pref.getString("PhoneNumber","0").equals(str)){
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("PhoneNumber",str);
-                    editor.commit();
+                    editor.apply();
                     return true;
                 }
                 break;
