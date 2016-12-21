@@ -36,7 +36,9 @@ func readDB(path string) ([]info, error) {
 		//println(line)
 		tmp := strings.SplitN(line, " ", 2)
 		if len(tmp) > 1 {
-			lines = append(lines, info{tmp[0], tmp[1]})
+			lines = append(lines, info{
+				strings.TrimSpace(tmp[0]),
+				strings.TrimSpace(tmp[1])})
 		}
 		if err != nil {
 			if err == io.EOF {
@@ -102,7 +104,7 @@ func getInfo(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	logFile, err := os.Create(logFile)
+	logFile, err := os.Open(logFile)
 	defer logFile.Close()
 	if err != nil {
 		log.Fatalln("open file error !")
@@ -113,6 +115,10 @@ func main() {
 	if err != nil {
 		println(err)
 	}
+	for _, v := range data {
+		println(v.num + " -> " + v.det)
+	}
+	// println(getGreetings("18814098702"))
 	http.HandleFunc("/getInfo", getInfo)
 	http.HandleFunc("/postInfo", postInfo)
 	//err := http.ListenAndServe(":80", http.FileServer(http.Dir("./")))

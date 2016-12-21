@@ -1,5 +1,8 @@
 package com.zfliu.fallingsnow.Network;
 
+import com.zfliu.fallingsnow.R;
+import com.zfliu.fallingsnow.Utils.Resource;
+
 import java.io.IOException;
 
 import okhttp3.FormBody;
@@ -17,7 +20,7 @@ public class HTTP {
     private static String TAG_PHONE = "Number";
     private static String TAG_CONTENT = "Content";
 
-    private static String host = "5tangs.com";
+    private static String host = Resource.getString(R.string.host);
     private static int port = 8012;
     private static String GetAct = "getInfo";
     private static String PostAct = "postInfo";

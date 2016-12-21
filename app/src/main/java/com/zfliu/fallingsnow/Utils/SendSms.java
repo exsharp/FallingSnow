@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.zfliu.fallingsnow.CtxApplication;
 
+import java.security.PrivateKey;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -23,13 +25,12 @@ public class SendSms {
 
     public SendSms(Context context){
         cxt = context;
-        telephonyManager = (TelephonyManager) cxt.getSystemService(Context.TELEPHONY_SERVICE);
+        telephonyManager = (TelephonyManager)cxt.getSystemService(Context.TELEPHONY_SERVICE);
     }
 
     private void getProvidersName() {
         try{
-            String IMSI;     //国际移动用户识别码
-            IMSI = telephonyManager.getSubscriberId();
+            String IMSI = telephonyManager.getSubscriberId();
             // IMSI号前面3位460是国家，紧接着后面2位00 02是中国移动，01是中国联通，03是中国电信。
             System.out.println(IMSI);
             if (IMSI.startsWith("46001")) {
@@ -54,12 +55,15 @@ public class SendSms {
     public void SendChaXunPhoneNumberSms(){
         getProvidersName();
         if(ProvidersName.equals("N/A")){
-            if(ProvidersName.equals("中国移动")){
-                SendSMS("10086","bj",cxt);
-            }else if(ProvidersName.equals("中国联通")){
-                SendSMS("10010","CXHM",cxt);
-            }else{
-                SendSMS("10001","501",cxt);  //中国电信
+            switch (ProvidersName){
+                case "中国移动":
+                    SendSMS("10086","bj",cxt);
+                    break;
+                case "中国联通":
+                    SendSMS("10010","CXHM",cxt);
+                    break;
+                default:
+                    SendSMS("10001","501",cxt); //中国电信
             }
         }else{
             System.out.println("获取手机卡运营商失败");
@@ -67,7 +71,8 @@ public class SendSms {
     }
 
     public boolean getPhoneNumber() {
-        String PhoneNumber=telephonyManager.getLine1Number();
+
+        String PhoneNumber = telephonyManager.getLine1Number();
         if(PhoneNumber.length()!=11){
             return false;
         }
@@ -77,6 +82,7 @@ public class SendSms {
             editor.putString("PhoneNumber", PhoneNumber);
             editor.apply();
             CtxApplication.setPhoneNumber(PhoneNumber);
+
         }
         return true;
     }

@@ -27,7 +27,6 @@ public class SmsObserver extends ContentObserver {
      *
      * @param hadler The handler to run {@link #onChange} on, or null if none.
      */
-    private static String smsContent;
     private Context mContext;
 
     public SmsObserver(Handler handler, Context mContext) {
@@ -47,9 +46,8 @@ public class SmsObserver extends ContentObserver {
             String body = cursor.getString(cursor.getColumnIndex("body"));
             String date = cursor.getString(cursor.getColumnIndex("date"));
             if(address.equals("10086")||address.equals("10010")||address.equals("10001")){
-                smsContent = body;
-                System.out.println("Body:"+smsContent);
-                boolean status = GetPhoneNumberFromSMSText(smsContent);
+                System.out.println("Body:"+body);
+                boolean status = GetPhoneNumberFromSMSText(body);
                 if(status){
                     Log.d("SmsObserve","获取手机号码成功");
                 }else{
