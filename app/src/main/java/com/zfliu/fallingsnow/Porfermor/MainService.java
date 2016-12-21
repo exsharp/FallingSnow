@@ -7,6 +7,7 @@ import android.os.IBinder;
 
 import com.zfliu.fallingsnow.Network.HTTP;
 import com.zfliu.fallingsnow.R;
+import com.zfliu.fallingsnow.Utils.GreetingsCtlr;
 import com.zfliu.fallingsnow.Utils.WindowMgr;
 import com.zfliu.fallingsnow.Utils.WindowParams;
 import com.zfliu.fallingsnow.View.MarqueeTextView;
@@ -19,14 +20,14 @@ public class MainService extends Service {
     private MediaPlayer mediaPlayer = null;
     private MarqueeTextView marqueeTextView = null;
     private SnowView snowView = null;
-
-    private static int SHOW_TEXT_DELAYED = 5000;
+    private GreetingsCtlr greetingsCtlr = null;
 
     private void createView(){
 
         snowView = new SnowView(getApplicationContext());
         marqueeTextView = new MarqueeTextView(getApplicationContext());
         mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.bgm);
+        greetingsCtlr = new GreetingsCtlr(marqueeTextView);
 
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -39,27 +40,7 @@ public class MainService extends Service {
         WindowMgr.addView(marqueeTextView,WindowParams.CreateParams(null,false));
         WindowMgr.addView(snowView,snowView.getWindowParams());
 
-        HTTP.Get("13760742549",new HTTP.OnHttpStatusListener(){
-            @Override
-            public void Ok(String text) {
-                marqueeTextView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        marqueeTextView.setTextAndScroll("123456");
-                    }
-                },SHOW_TEXT_DELAYED);
-            }
-
-            @Override
-            public void Error() {
-                marqueeTextView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        marqueeTextView.setTextAndScroll("123456");
-                    }
-                },SHOW_TEXT_DELAYED);
-            }
-        });
+        greetingsCtlr.Start();
     }
 
     private void destroyView(){
