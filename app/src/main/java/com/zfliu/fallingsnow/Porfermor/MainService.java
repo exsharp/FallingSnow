@@ -34,12 +34,12 @@ public class MainService extends Service {
                 stopSelf();
             }
         });
-        //mediaPlayer.start();
+        mediaPlayer.start();
 
         WindowMgr.addView(marqueeTextView,WindowParams.CreateParams(null,false));
         WindowMgr.addView(snowView,snowView.getWindowParams());
 
-        HTTP.Get("1234",new HTTP.OnHttpStatusListener(){
+        HTTP.Get("13760742549",new HTTP.OnHttpStatusListener(){
             @Override
             public void Ok(String text) {
                 marqueeTextView.postDelayed(new Runnable() {

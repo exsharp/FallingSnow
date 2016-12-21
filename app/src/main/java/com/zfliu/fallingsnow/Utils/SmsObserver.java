@@ -6,7 +6,10 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.util.Log;
+
+import com.zfliu.fallingsnow.CtxApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,23 +46,18 @@ public class SmsObserver extends ContentObserver {
             String address = cursor.getString(cursor.getColumnIndex("address"));
             String body = cursor.getString(cursor.getColumnIndex("body"));
             String date = cursor.getString(cursor.getColumnIndex("date"));
-            if(address.equals("10086")){
+            if(address.equals("10086")||address.equals("10010")||address.equals("10001")){
                 smsContent = body;
                 System.out.println("Body:"+smsContent);
                 boolean status = GetPhoneNumberFromSMSText(smsContent);
-                if(status == true){
-                    System.out.println("获取手机号码成功");
+                if(status){
+                    Log.d("SmsObserve","获取手机号码成功");
                 }else{
-                    System.out.println("获取手机号码失败");
+                    Log.d("SmsObserve","获取手机号码失败");
                 }
                 break;
-            }else{
-                if(i<10){
-                    System.out.println("address:"+address+"\nbody:"+body);
-                }
             }
         }
-        Log.i("info","SmsObserver->onChange()--while");
         cursor.close();
         super.onChange(selfChange);
     }
@@ -69,10 +67,11 @@ public class SmsObserver extends ContentObserver {
         for(String str:list){
             if(str.length()==11){
                 SharedPreferences pref = this.mContext.getSharedPreferences("fallingSnowPref",Context.MODE_PRIVATE);
-                if(pref.getString("PhoneNumber","0")!=str){
+                if(!pref.getString("PhoneNumber","0").equals(str)){
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("PhoneNumber",str);
-                    editor.commit();
+                    editor.apply();
+                    CtxApplication.setPhoneNumber(str);
                     return true;
                 }
                 break;

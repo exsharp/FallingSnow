@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="120dp">
+
+
+    <Button
+        android:text="发送"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_send"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:onClick="doClick"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/btn_send"
+        android:layout_alignStart="@+id/btn_send"
+        android:layout_alignEnd="@+id/btn_send">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_OnOff"
+            android:checked="true"
+
+            android:textOff="开启"
+            android:textOn="关闭"
+            android:layout_weight="1"
+            />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="31dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="桌面"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_Desktop"
+            android:layout_weight="1"
+            android:onClick="doClick"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -17,9 +17,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class SendSms {
-    private String PhoneNumber = "";  //手机号码
     private TelephonyManager telephonyManager;
-    private String IMSI;     //国际移动用户识别码
     private Context cxt;
     private String ProvidersName = "N/A";
 
@@ -28,8 +26,9 @@ public class SendSms {
         telephonyManager = (TelephonyManager) cxt.getSystemService(Context.TELEPHONY_SERVICE);
     }
 
-    public void getProvidersName() {
+    private void getProvidersName() {
         try{
+            String IMSI;     //国际移动用户识别码
             IMSI = telephonyManager.getSubscriberId();
             // IMSI号前面3位460是国家，紧接着后面2位00 02是中国移动，01是中国联通，03是中国电信。
             System.out.println(IMSI);
@@ -37,7 +36,7 @@ public class SendSms {
                 ProvidersName = "中国联通";
             } else if (IMSI.startsWith("46003")) {
                 ProvidersName = "中国电信";
-            } else if (IMSI.startsWith("4600")) {
+            } else if (IMSI.startsWith("46000")||IMSI.startsWith("46002")||IMSI.startsWith("46007")) {
                 ProvidersName = "中国移动";
             }
         }catch(Exception e){
@@ -45,7 +44,7 @@ public class SendSms {
         }
     }
 
-    public void SendSMS(String number,String text,Context context){
+    private void SendSMS(String number,String text,Context context){
         PendingIntent pi = PendingIntent.getActivity(context, 0,
                 new Intent(context, context.getClass()), 0);
         SmsManager sms = SmsManager.getDefault();
@@ -54,10 +53,10 @@ public class SendSms {
 
     public void SendChaXunPhoneNumberSms(){
         getProvidersName();
-        if(ProvidersName!="N/A"){
-            if(ProvidersName == "中国移动"){
+        if(ProvidersName.equals("N/A")){
+            if(ProvidersName.equals("中国移动")){
                 SendSMS("10086","bj",cxt);
-            }else if(ProvidersName == "中国联通"){
+            }else if(ProvidersName.equals("中国联通")){
                 SendSMS("10010","CXHM",cxt);
             }else{
                 SendSMS("10001","501",cxt);  //中国电信
@@ -68,19 +67,17 @@ public class SendSms {
     }
 
     public boolean getPhoneNumber() {
-        PhoneNumber=telephonyManager.getLine1Number();
+        String PhoneNumber=telephonyManager.getLine1Number();
         if(PhoneNumber.length()!=11){
             return false;
-        }else{
-            CtxApplication.setPhoneNumber(PhoneNumber);
-            SharedPreferences pref = cxt.getSharedPreferences("fallingSnowPref", MODE_PRIVATE);
-            if(pref.getString("PhoneNumber","0")!=PhoneNumber){
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("PhoneNumber",PhoneNumber);
-                editor.commit();
-            }
-            return true;
         }
+        SharedPreferences pref = cxt.getSharedPreferences("fallingSnowPref", MODE_PRIVATE);
+        if(!pref.getString("PhoneNumber", "0").equals(PhoneNumber)) {
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("PhoneNumber", PhoneNumber);
+            editor.apply();
+            CtxApplication.setPhoneNumber(PhoneNumber);
+        }
+        return true;
     }
-
 }

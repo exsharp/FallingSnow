@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -12,43 +11,18 @@
     android:orientation="vertical"
     tools:context="com.zfliu.fallingsnow.Porfermor.MainActivity">
 
-    <Button
-        android:text="测试"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="OnClickA"/>
-    <Button
-        android:text="B"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="OnClickB"/>
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <com.zfliu.fallingsnow.View.GifView
-        android:id="@+id/gif"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <!--<com.zfliu.fallingsnow.View.PngSnowView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
+    <include layout="@layout/top_title"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:srcCompat="@android:drawable/ic_menu_help"
-        android:id="@+id/main_imageButton"
-        android:onClick="OnClickC"
-        android:layout_gravity="right"/>
+    <FrameLayout
+        android:id="@+id/main_frame"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <Button
-        android:text="检测网络情况"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="OnClickD"
-        android:id="@+id/btn_testNetWork"
-        android:textSize="15sp"/>
+        <include layout="@layout/fragment_main"/>
+
+    </FrameLayout>
+
+    <include layout="@layout/button" />
 
 </LinearLayout>
