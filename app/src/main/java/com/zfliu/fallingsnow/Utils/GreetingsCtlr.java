@@ -27,18 +27,15 @@ public class GreetingsCtlr {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                while ((repeatTimes++) < DEFAULT_GET_PHONE_TIMES){
+                if ((repeatTimes++) < DEFAULT_GET_PHONE_TIMES){
                     if (CtxApplication.getPhoneNumber() != null){
                         handler.post(httpRunnable);
                         return;
                     }
-                    try {
-                        Thread.sleep(THREAD_SLEEP_TIME);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    handler.postDelayed(this,THREAD_SLEEP_TIME);
+                }else{
+                    handler.post(defaultGreeting);
                 }
-                handler.post(defaultGreeting);
             }
         });
     }

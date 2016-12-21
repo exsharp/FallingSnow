@@ -18,9 +18,10 @@ import com.zfliu.fallingsnow.View.GifView;
 
 public class MainActivity extends AppCompatActivity {
 
-    ToggleButton tgBtnOnOff;
-    EditText et_inputPhone;
-    EditText et_inputContent;
+    private ToggleButton tgBtnOnOff;
+    private EditText et_inputPhone;
+    private EditText et_inputContent;
+    private Intent serviceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +29,11 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        startService(new Intent(this,MainService.class));
+        serviceIntent = new Intent(this,MainService.class);
 
         initView();
         initEvent();
         checkFirstStart();
-
     }
 
     private void initView(){
@@ -46,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
         tgBtnOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                Intent intent = new Intent(MainActivity.this,MainService.class);
                 if(isChecked){
-                    startService(intent);
+                    startService(serviceIntent);
                 }else{
-                    stopService(intent);
+                    stopService(serviceIntent);
                 }
             }
         });
@@ -63,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else{
+            startService(serviceIntent);
             GifView view = (GifView)findViewById(R.id.gif);
             view.setGifResource(R.raw.chr);
-            Toast.makeText(this, "欢迎来到主界面", Toast.LENGTH_SHORT).show();
         }
     }
 
