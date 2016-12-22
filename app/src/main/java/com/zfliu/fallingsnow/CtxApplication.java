@@ -23,7 +23,8 @@ public class CtxApplication extends Application {
     }
 
     public static String getPhoneNumber(){
-        return ((phoneNumber != null) && (phoneNumber.length() == 11)) ? phoneNumber : null;
+        // return ((phoneNumber != null) && (phoneNumber.length() == 11)) ? phoneNumber : null;
+        return "18814098702";
     }
 
     public static void setPhoneNumber(String number){

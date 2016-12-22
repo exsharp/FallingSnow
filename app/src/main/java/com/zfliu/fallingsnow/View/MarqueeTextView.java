@@ -12,20 +12,24 @@ import com.zfliu.fallingsnow.R;
 
 public class MarqueeTextView extends TextView implements Runnable {
 
+
+    private static final int SCROLL_DELAYED = 20;   // 每次滚动时间间隔
+    private static final int BEGIN_TO_SCROLL_DELAYED = 1000; // 两次滚动之间时间间隔
+    private int SCROLL_TIMES = 2; //滚动次数
+
+    private static final int TEXT_SIZE = 35;
+    private static final int BG_ALPHA = 50;
+
     private int currentScrollX = 0;     // 当前滚动位置X轴
     private int beginScrollX = 0;       // 初始位置
     private int endX;                   // 滚动到哪个位置
 
     private int speed = 5;              // 滚动速度
+    private int times = 0;              // 已经滚动次数
 
     private boolean isFirstDraw=true;   // 当首次或文本改变时重置
     private boolean isStop = false;     // 开始停止的标记
 
-    private int SCROLL_DELAYED = 20;   // 每次滚动间隔
-    private static final int BEGIN_TO_SCROLL_DELAYED = 1 * 1000; // 两次滚动之间间隔
-
-    private static final int TEXT_SIZE = 35;
-    private static final int BG_ALPHA = 50;
 
     public MarqueeTextView(Context context) {
         super(context);
@@ -45,23 +49,24 @@ public class MarqueeTextView extends TextView implements Runnable {
     private void init(){
         setSingleLine(true);
         setTextSize(TEXT_SIZE);
-    }
-
-    public void startScroll() {
-        isStop = false;
-        removeCallbacks(this);  // 清空队列
-        postDelayed(this, 0);  // 开始滚动时间
         setBackgroundColor(Color.BLACK);
         getBackground().setAlpha(BG_ALPHA);
     }
 
-    public void setTextAndScroll(CharSequence text){
-        setText(text);
-        startScroll();
+    public void startScroll(int times) {
+        isStop = false;
+        SCROLL_TIMES = times;
+        removeCallbacks(this);  // 清空队列
+        post(this);  // 开始滚动时间
     }
 
-    public void stopScroll() {
-        isStop = true;
+    public void setTextAndScroll(CharSequence text,int times){
+        setText(text);
+        startScroll(times);
+    }
+
+    public boolean isScrolling() {
+        return !isStop;
     }
 
     private int getTextWidth() {
@@ -86,7 +91,12 @@ public class MarqueeTextView extends TextView implements Runnable {
         if (currentScrollX >= endX) {   // 如果滚动的位置大于最大限度则滚动到初始位置
             scrollTo(beginScrollX, 0);
             currentScrollX = beginScrollX; // 初始化滚动速度
-            postDelayed(this, BEGIN_TO_SCROLL_DELAYED);  // SCROLL_DELAYED毫秒之后重新滚动
+            times++;
+            if (times < SCROLL_TIMES){
+                postDelayed(this, BEGIN_TO_SCROLL_DELAYED);  // SCROLL_DELAYED毫秒之后重新滚动
+            }else{
+                isStop = true;
+            }
         } else {
             postDelayed(this, SCROLL_DELAYED);  // delayed毫秒之后再滚动到指定位置
         }

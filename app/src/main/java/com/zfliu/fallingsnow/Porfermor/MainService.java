@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 
-import com.zfliu.fallingsnow.Network.HTTP;
 import com.zfliu.fallingsnow.R;
 import com.zfliu.fallingsnow.Utils.GreetingsCtlr;
 import com.zfliu.fallingsnow.Utils.WindowMgr;
