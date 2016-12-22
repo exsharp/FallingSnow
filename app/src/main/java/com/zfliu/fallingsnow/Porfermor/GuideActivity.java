@@ -111,16 +111,4 @@ public class GuideActivity extends AppCompatActivity {
                 break;
         }
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("info","GuideActivity-->onStop");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onStop();
-        Log.i("info","GuideActivity-->onResume");
-    }
 }

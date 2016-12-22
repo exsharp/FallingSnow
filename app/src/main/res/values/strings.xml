@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FallingSnow</string>
     <string name="host">5tangs.com</string>
+    <string name="greeting">圣诞快乐</string>
 </resources>
