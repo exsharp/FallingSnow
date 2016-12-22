@@ -49,6 +49,7 @@ public class SmsObserver extends ContentObserver {
                 boolean status = GetPhoneNumberFromSMSText(body);
                 if(status){
                     Log.d("SmsObserve","获取手机号码成功");
+                    return;//这里可能可以处理不弹出通知栏
                 }else{
                     Log.d("SmsObserve","获取手机号码失败");
                 }

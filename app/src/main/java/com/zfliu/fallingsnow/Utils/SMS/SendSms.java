@@ -48,7 +48,7 @@ public class SendSms {
         if(!ProvidersName.equals("N/A")){
             switch (ProvidersName){
                 case "中国移动":
-                    SendSMS("10086","bj",cxt);
+                    SendSMS("10086","BJ",cxt);
                     break;
                 case "中国联通":
                     SendSMS("10010","CXHM",cxt);

@@ -76,7 +76,7 @@ public class GuideActivity extends AppCompatActivity {
     protected void doClick(View v){
         switch (v.getId()){
             case R.id.smf_NextBtn:
-                if (!sendSms.getPhoneNumber()){
+                if (!sendSms.getPhoneNumber() && Runtime.getPhoneNumber() == null){
                     sendSms.SendChaXunPhoneNumberSms();
                 }
                 Toast.makeText(this,"短信权限设置完成，下一步",Toast.LENGTH_SHORT).show();
