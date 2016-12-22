@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.R;
@@ -28,6 +29,7 @@ public class GuideActivity extends AppCompatActivity {
     private android.app.FragmentManager fragmentManager = null;
     private android.app.FragmentTransaction beginTransaction = null;
     private SendSms sendSms;
+    private ViewFlipper smf_viewFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,10 @@ public class GuideActivity extends AppCompatActivity {
         beginTransaction = fragmentManager.beginTransaction();
         beginTransaction.add(R.id.guide_frame,smsFragment);
         beginTransaction.commit();
+    }
+
+    private void initView(){
+        smf_viewFlipper = (ViewFlipper) findViewById(R.id.smf_viewFlipper);
     }
 
     protected void doClick(View v){
