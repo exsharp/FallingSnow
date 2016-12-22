@@ -1,4 +1,4 @@
-package com.zfliu.fallingsnow.Utils;
+package com.zfliu.fallingsnow.Utils.SMS;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -63,8 +63,7 @@ public class SmsObserver extends ContentObserver {
         List<String> list=GetNumberInString(sms);
         for(String str:list){
             if(str.length()==11){
-                Runtime.setPhoneNumber(mContext,str);
-                CtxApplication.setPhoneNumber(str);
+                Runtime.setPhoneNumber(str);
                 return true;
             }
         }

@@ -1,8 +1,7 @@
-package com.zfliu.fallingsnow.Utils;
+package com.zfliu.fallingsnow.Utils.Windows;
 
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;

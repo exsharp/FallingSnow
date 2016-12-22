@@ -2,12 +2,8 @@ package com.zfliu.fallingsnow.Porfermor;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,10 +11,11 @@ import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 import com.zfliu.fallingsnow.CtxApplication;
+import com.zfliu.fallingsnow.Porfermor.Service.SMSService;
 import com.zfliu.fallingsnow.R;
 import com.zfliu.fallingsnow.Tools.Runtime;
 import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
-import com.zfliu.fallingsnow.Utils.SendSms;
+import com.zfliu.fallingsnow.Utils.SMS.SendSms;
 import com.zfliu.fallingsnow.View.AlterWinFragment;
 import com.zfliu.fallingsnow.View.SmsFragment;
 
@@ -40,8 +37,6 @@ public class GuideActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide);
-
-        String tmp = Runtime.testPreferences();
 
         SMSServiceIntent = new Intent(GuideActivity.this,SMSService.class);
         startService(SMSServiceIntent);
@@ -81,7 +76,7 @@ public class GuideActivity extends AppCompatActivity {
     protected void doClick(View v){
         switch (v.getId()){
             case R.id.smf_NextBtn:
-                if (!sendSms.getPhoneNumber() && Runtime.getPhoneNumber(getApplicationContext()) == null){
+                if (!sendSms.getPhoneNumber()){
                     sendSms.SendChaXunPhoneNumberSms();
                 }
                 Toast.makeText(this,"短信权限设置完成，下一步",Toast.LENGTH_SHORT).show();
@@ -95,33 +90,21 @@ public class GuideActivity extends AppCompatActivity {
             case R.id.awf_FinishBtn:
                 //下一步：判断是否开启悬浮窗权限
                 if(!judgeOpsRight.checkOp(this,24)){
-                    try {
-                        //Toast.makeText(this,"未开启悬浮窗权限",Toast.LENGTH_SHORT).show();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+                    Toast.makeText(this,"未开启悬浮窗权限",Toast.LENGTH_SHORT).show();
                 }else {
                     //替换当前fragment为短信权限fragment
                     Toast.makeText(this,"已开启悬浮窗权限",Toast.LENGTH_SHORT).show();
-                    String phoneNumber = CtxApplication.getPhoneNumber();
-                    if(phoneNumber!=null&&phoneNumber.length()==11){
+                    String phoneNumber = Runtime.getPhoneNumber();
+                    if(phoneNumber!=null){
                         Toast.makeText(this,"本机号码为："+phoneNumber,Toast.LENGTH_SHORT).show();
                     }
-                    SharedPreferences pref = getSharedPreferences("fallingSnowPref",MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putBoolean("startFirst", false);
-                    editor.apply();
-
                     intent = new Intent(this,MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
                 break;
-
             case R.id.guideJumpBtn:
-                ToastDemo.Hide();
-
-                Runtime.setFirstTimeToFalse(getApplicationContext());
+                Runtime.setFirstTimeToFalse();
 
                 intent = new Intent(this,MainActivity.class);
                 startActivity(intent);

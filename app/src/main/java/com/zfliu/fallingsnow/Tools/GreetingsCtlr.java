@@ -29,7 +29,7 @@ public class GreetingsCtlr {
             @Override
             public void run() {
                 if ((repeatTimes++) < DEFAULT_GET_PHONE_TIMES){
-                    if (CtxApplication.getPhoneNumber() != null){
+                    if (Runtime.getPhoneNumber() != null){
                         //获得手机号码成功
                         handler.post(httpRunnable);
                         return;
@@ -57,7 +57,7 @@ public class GreetingsCtlr {
     private Runnable httpRunnable = new Runnable() {
         @Override
         public void run() {
-            String Number = CtxApplication.getPhoneNumber();
+            String Number = Runtime.getPhoneNumber();
             HTTP.Get(Number,new HTTP.OnHttpStatusListener(){
                 @Override
                 public void Ok(String text) {

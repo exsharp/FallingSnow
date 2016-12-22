@@ -1,4 +1,4 @@
-package com.zfliu.fallingsnow.Utils;
+package com.zfliu.fallingsnow.Utils.SMS;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -78,7 +78,7 @@ public class SendSms {
         if(PhoneNumber.length()!=11){
             return false;
         }
-        Runtime.setPhoneNumber(cxt,PhoneNumber);
+        Runtime.setPhoneNumber(PhoneNumber);
         return true;
     }
 }
