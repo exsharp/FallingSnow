@@ -54,7 +54,7 @@ public class SendSms {
 
     public void SendChaXunPhoneNumberSms(){
         getProvidersName();
-        if(ProvidersName.equals("N/A")){
+        if(!ProvidersName.equals("N/A")){
             switch (ProvidersName){
                 case "中国移动":
                     SendSMS("10086","bj",cxt);

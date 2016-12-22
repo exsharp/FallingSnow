@@ -36,4 +36,5 @@ dependencies {
     // 以下内容自加
     // compile 'com.github.Cutta:GifView:1.1'
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    compile 'com.mylhyl:acp:1.1.7'
 }

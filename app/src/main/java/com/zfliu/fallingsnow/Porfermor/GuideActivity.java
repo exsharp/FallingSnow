@@ -1,5 +1,6 @@
 package com.zfliu.fallingsnow.Porfermor;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -11,6 +12,9 @@ import android.view.View;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.mylhyl.acp.Acp;
+import com.mylhyl.acp.AcpListener;
+import com.mylhyl.acp.AcpOptions;
 import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.R;
 import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
@@ -18,6 +22,8 @@ import com.zfliu.fallingsnow.Utils.SendSms;
 import com.zfliu.fallingsnow.Utils.SmsObserver;
 import com.zfliu.fallingsnow.View.AlterWinFragment;
 import com.zfliu.fallingsnow.View.SmsFragment;
+
+import java.util.List;
 
 /**
  * 引导界面类
@@ -51,6 +57,22 @@ public class GuideActivity extends AppCompatActivity {
         beginTransaction = fragmentManager.beginTransaction();
         beginTransaction.add(R.id.guide_frame,smsFragment);
         beginTransaction.commit();
+
+        Acp.getInstance(this).request(new AcpOptions.Builder().setPermissions(Manifest.permission.SEND_SMS
+                , Manifest.permission.READ_PHONE_STATE
+                , Manifest.permission.READ_SMS
+                , Manifest.permission.RECEIVE_SMS
+                , Manifest.permission.SYSTEM_ALERT_WINDOW).build(), new AcpListener() {
+            @Override
+            public void onGranted() {
+                Toast.makeText(GuideActivity.this, "授权成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDenied(List<String> permissions) {
+                Toast.makeText(GuideActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initView(){
@@ -59,13 +81,7 @@ public class GuideActivity extends AppCompatActivity {
 
     protected void doClick(View v){
         switch (v.getId()){
-            case R.id.smf_NextBtn:
-                //1.判断短信权限是否开启
-                if(!judgeOpsRight.checkOp(this,20)){
-                    Toast.makeText(this,"未开启发送短信权限",Toast.LENGTH_SHORT).show();
-                }else if(!judgeOpsRight.checkOp(this,14)){
-                    Toast.makeText(this,"未开启读取短信权限",Toast.LENGTH_SHORT).show();
-                }else{
+            case R.id.smf_NextBtn:{
                     SharedPreferences pref = getSharedPreferences("fallingSnowPref",MODE_PRIVATE);
                     if(!sendSms.getPhoneNumber() && (pref.getString("PhoneNumber","0").length()!=11)){
                         sendSms.SendChaXunPhoneNumberSms();
@@ -77,7 +93,7 @@ public class GuideActivity extends AppCompatActivity {
                     beginTransaction.replace(R.id.guide_frame,alterWinFragment);
                     beginTransaction.addToBackStack(null);
                     beginTransaction.commit();
-                }
+            }
                 break;
 
             case R.id.awf_FinishBtn:
