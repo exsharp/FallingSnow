@@ -3,9 +3,9 @@ package com.zfliu.fallingsnow.Porfermor;
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,9 +17,9 @@ import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.R;
+import com.zfliu.fallingsnow.Tools.Runtime;
 import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
 import com.zfliu.fallingsnow.Utils.SendSms;
-import com.zfliu.fallingsnow.Utils.SmsObserver;
 import com.zfliu.fallingsnow.View.AlterWinFragment;
 import com.zfliu.fallingsnow.View.SmsFragment;
 
@@ -30,7 +30,8 @@ import java.util.List;
  */
 
 public class GuideActivity extends AppCompatActivity {
-    Intent intent = null;
+    private Intent intent = null;
+    private Intent SMSServiceIntent = null;
     private JudgeOpsRight judgeOpsRight;
     private android.app.FragmentManager fragmentManager = null;
     private android.app.FragmentTransaction beginTransaction = null;
@@ -39,17 +40,36 @@ public class GuideActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("info","GuideActivity-->onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide);
 
+        SMSServiceIntent = new Intent(this,SMSService.class);
+        startService(SMSServiceIntent);
+
+        Acp.getInstance(this).request(new AcpOptions.Builder()
+                        .setPermissions(
+                                Manifest.permission.READ_SMS,
+                                Manifest.permission.SEND_SMS)
+                /*以下为自定义提示语、按钮文字
+                .setDeniedMessage()
+                .setDeniedCloseBtn()
+                .setDeniedSettingBtn()
+                .setRationalMessage()
+                .setRationalBtn()*/
+                        .build(),
+                new AcpListener() {
+                    @Override
+                    public void onGranted() {
+                        Toast.makeText(getApplicationContext(),"可以",Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onDenied(List<String> permissions) {
+                        Toast.makeText(getApplicationContext(),"不可以",Toast.LENGTH_LONG).show();
+                    }
+                });
+
         sendSms = new SendSms(CtxApplication.getContext());
-
-        //注册短信Listener
-        SmsObserver smsObserver;
-        smsObserver = new SmsObserver(new Handler(),this);
-        getContentResolver().registerContentObserver(Uri.parse("content://sms"), true,smsObserver);
-
         judgeOpsRight = new JudgeOpsRight();
         SmsFragment smsFragment;
         smsFragment = new SmsFragment();
@@ -79,27 +99,34 @@ public class GuideActivity extends AppCompatActivity {
         smf_viewFlipper = (ViewFlipper) findViewById(R.id.smf_viewFlipper);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(SMSServiceIntent);
+    }
+
     protected void doClick(View v){
         switch (v.getId()){
-            case R.id.smf_NextBtn:{
-                    SharedPreferences pref = getSharedPreferences("fallingSnowPref",MODE_PRIVATE);
-                    if(!sendSms.getPhoneNumber() && (pref.getString("PhoneNumber","0").length()!=11)){
-                        sendSms.SendChaXunPhoneNumberSms();
-                    }
-                    Toast.makeText(this,"短信权限设置完成，下一步",Toast.LENGTH_SHORT).show();
-                    beginTransaction = fragmentManager.beginTransaction();
-                    AlterWinFragment alterWinFragment;
-                    alterWinFragment = new AlterWinFragment();
-                    beginTransaction.replace(R.id.guide_frame,alterWinFragment);
-                    beginTransaction.addToBackStack(null);
-                    beginTransaction.commit();
-            }
+            case R.id.smf_NextBtn:
+                if (!sendSms.getPhoneNumber() && Runtime.isFirstTime(getApplicationContext())){
+                    sendSms.SendChaXunPhoneNumberSms();
+                }
+                Toast.makeText(this,"短信权限设置完成，下一步",Toast.LENGTH_SHORT).show();
+                beginTransaction = fragmentManager.beginTransaction();
+                AlterWinFragment alterWinFragment;
+                alterWinFragment = new AlterWinFragment();
+                beginTransaction.replace(R.id.guide_frame,alterWinFragment);
+                beginTransaction.addToBackStack(null);
+                beginTransaction.commit();
                 break;
-
             case R.id.awf_FinishBtn:
                 //下一步：判断是否开启悬浮窗权限
                 if(!judgeOpsRight.checkOp(this,24)){
-                    Toast.makeText(this,"未开启悬浮窗权限",Toast.LENGTH_SHORT).show();
+                    try {
+                        //Toast.makeText(this,"未开启悬浮窗权限",Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }else {
                     //替换当前fragment为短信权限fragment
                     Toast.makeText(this,"已开启悬浮窗权限",Toast.LENGTH_SHORT).show();
