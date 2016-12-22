@@ -16,6 +16,7 @@ import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.R;
+import com.zfliu.fallingsnow.Tools.Runtime;
 import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
 import com.zfliu.fallingsnow.Utils.SendSms;
 import com.zfliu.fallingsnow.View.AlterWinFragment;
@@ -85,30 +86,17 @@ public class GuideActivity extends AppCompatActivity {
     protected void doClick(View v){
         switch (v.getId()){
             case R.id.smf_NextBtn:
-                //1.判断短信权限是否开启
-                if(!judgeOpsRight.checkOp(this,20)){
-                    try {
-                        //Toast.makeText(this,"未开启发送短信权限",Toast.LENGTH_SHORT).show();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }else if(!judgeOpsRight.checkOp(this,14)){
-                    Toast.makeText(this,"未开启读取短信权限",Toast.LENGTH_SHORT).show();
-                }else{
-                    SharedPreferences pref = getSharedPreferences("fallingSnowPref",MODE_PRIVATE);
-                    if(!sendSms.getPhoneNumber() && (pref.getString("PhoneNumber","0").length()!=11)){
-                        sendSms.SendChaXunPhoneNumberSms();
-                    }
-                    Toast.makeText(this,"短信权限设置完成，下一步",Toast.LENGTH_SHORT).show();
-                    beginTransaction = fragmentManager.beginTransaction();
-                    AlterWinFragment alterWinFragment;
-                    alterWinFragment = new AlterWinFragment();
-                    beginTransaction.replace(R.id.guide_frame,alterWinFragment);
-                    beginTransaction.addToBackStack(null);
-                    beginTransaction.commit();
+                if (!sendSms.getPhoneNumber() && Runtime.isFirstTime(getApplicationContext())){
+                    sendSms.SendChaXunPhoneNumberSms();
                 }
+                Toast.makeText(this,"短信权限设置完成，下一步",Toast.LENGTH_SHORT).show();
+                beginTransaction = fragmentManager.beginTransaction();
+                AlterWinFragment alterWinFragment;
+                alterWinFragment = new AlterWinFragment();
+                beginTransaction.replace(R.id.guide_frame,alterWinFragment);
+                beginTransaction.addToBackStack(null);
+                beginTransaction.commit();
                 break;
-
             case R.id.awf_FinishBtn:
                 //下一步：判断是否开启悬浮窗权限
                 if(!judgeOpsRight.checkOp(this,24)){
