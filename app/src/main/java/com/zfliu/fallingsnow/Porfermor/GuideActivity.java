@@ -98,6 +98,7 @@ public class GuideActivity extends AppCompatActivity {
                     if(phoneNumber!=null){
                         Toast.makeText(this,"本机号码为："+phoneNumber,Toast.LENGTH_SHORT).show();
                     }
+
                     intent = new Intent(this,MainActivity.class);
                     startActivity(intent);
                     finish();

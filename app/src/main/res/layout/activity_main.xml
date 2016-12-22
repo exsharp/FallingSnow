@@ -9,7 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.zfliu.fallingsnow.Porfermor.MainActivity">
+    tools:context="com.zfliu.fallingsnow.Porfermor.MainActivity"
+    android:background="@drawable/christmasbackgroung">
 
     <include layout="@layout/top_title"/>
 

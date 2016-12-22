@@ -7,6 +7,7 @@
 
     <Button
         android:text="发送"
+        android:textColor="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_send"
@@ -32,6 +33,7 @@
 
             android:textOff="开启"
             android:textOn="关闭"
+            android:textColor="#ffffff"
             android:layout_weight="1"
             />
 
@@ -43,6 +45,7 @@
 
         <Button
             android:text="桌面"
+            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_Desktop"
