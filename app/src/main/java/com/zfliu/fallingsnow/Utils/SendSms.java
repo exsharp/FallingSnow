@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.zfliu.fallingsnow.CtxApplication;
-
-import java.security.PrivateKey;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -45,16 +42,9 @@ public class SendSms {
         }
     }
 
-    private void SendSMS(String number,String text,Context context){
-        PendingIntent pi = PendingIntent.getActivity(context, 0,
-                new Intent(context, context.getClass()), 0);
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(number, null, text, pi, null);
-    }
-
     public void SendChaXunPhoneNumberSms(){
         getProvidersName();
-        if(ProvidersName.equals("N/A")){
+        if(!ProvidersName.equals("N/A")){
             switch (ProvidersName){
                 case "中国移动":
                     SendSMS("10086","bj",cxt);
@@ -67,6 +57,17 @@ public class SendSms {
             }
         }else{
             System.out.println("获取手机卡运营商失败");
+        }
+    }
+
+    private void SendSMS(String number,String text,Context context){
+        PendingIntent pi = PendingIntent.getActivity(context, 0,
+                new Intent(context, context.getClass()), 0);
+        SmsManager sms = SmsManager.getDefault();
+        try {
+            sms.sendTextMessage(number, null, text, pi, null);
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 

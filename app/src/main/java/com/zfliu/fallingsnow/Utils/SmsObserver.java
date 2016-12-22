@@ -40,7 +40,6 @@ public class SmsObserver extends ContentObserver {
         Cursor cursor = mContext.getContentResolver().query(
                 Uri.parse("content://sms/inbox"), null, null, null, "date desc");
 
-        int i =1;
         while(cursor.moveToNext()){
             String address = cursor.getString(cursor.getColumnIndex("address"));
             String body = cursor.getString(cursor.getColumnIndex("body"));
@@ -64,7 +63,7 @@ public class SmsObserver extends ContentObserver {
         List<String> list=GetNumberInString(sms);
         for(String str:list){
             if(str.length()==11){
-                SharedPreferences pref = this.mContext.getSharedPreferences("fallingSnowPref",Context.MODE_PRIVATE);
+                SharedPreferences pref = mContext.getSharedPreferences("fallingSnowPref",Context.MODE_PRIVATE);
                 if(!pref.getString("PhoneNumber","0").equals(str)){
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("PhoneNumber",str);
