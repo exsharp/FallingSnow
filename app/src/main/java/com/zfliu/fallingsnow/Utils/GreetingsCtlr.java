@@ -24,21 +24,35 @@ public class GreetingsCtlr {
     }
 
     public void Start(){
+        handler.post(defaultGreeting);//最开始要显示的文字
         handler.post(new Runnable() {
             @Override
             public void run() {
                 if ((repeatTimes++) < DEFAULT_GET_PHONE_TIMES){
                     if (CtxApplication.getPhoneNumber() != null){
+                        //获得手机号码成功
                         handler.post(httpRunnable);
                         return;
                     }
                     handler.postDelayed(this,THREAD_SLEEP_TIME);
                 }else{
-                    handler.post(defaultGreeting);
+                    //一分钟时间都没有获得手机号码
+                    handler.post(withoutPhoneNumber);
                 }
             }
         });
     }
+    private Runnable defaultGreeting = new Runnable() {
+        @Override
+        public void run() {
+            marquView.post(new Runnable() {
+                @Override
+                public void run() {
+                    marquView.setTextAndScroll(Resource.defaultGreeting(),1);
+                }
+            });
+        }
+    };
 
     private Runnable httpRunnable = new Runnable() {
         @Override
@@ -46,27 +60,40 @@ public class GreetingsCtlr {
             String Number = CtxApplication.getPhoneNumber();
             HTTP.Get(Number,new HTTP.OnHttpStatusListener(){
                 @Override
-                public void Ok(final String text) {
-                    marquView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            marquView.setTextAndScroll(text);
+                public void Ok(String text) {
+                    text = text.replace("\r","");
+                    String texts[] = text.split("\n");
+                    for (final String tt : texts){
+                        try {
+                            while (marquView.isScrolling()){
+                                Thread.sleep(1000);
+                            }
+                            marquView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    marquView.setTextAndScroll(tt,1);
+                                }
+                            });
+                            Thread.sleep(1000); //为了让上面的POST生效
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                    });
+                    }
+                }
+
+                @Override
+                public void Error() {
+                    //HTTP获取失败，尝试？
+                    //TODO
                 }
             });
         }
     };
 
-    private Runnable defaultGreeting = new Runnable() {
+    private Runnable withoutPhoneNumber = new Runnable() {
         @Override
         public void run() {
-            marquView.post(new Runnable() {
-                @Override
-                public void run() {
-                    marquView.setTextAndScroll(Resource.defaultGreeting());
-                }
-            });
+            //没有获得手机号码时调用
         }
     };
 }
