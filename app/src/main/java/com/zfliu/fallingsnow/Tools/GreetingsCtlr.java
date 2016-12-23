@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.Network.HTTP;
-import com.zfliu.fallingsnow.Utils.Resource;
 import com.zfliu.fallingsnow.View.MarqueeTextView;
 
 /**

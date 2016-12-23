@@ -1,9 +1,7 @@
 package com.zfliu.fallingsnow.Network;
 
 import com.zfliu.fallingsnow.R;
-import com.zfliu.fallingsnow.Utils.Resource;
-
-import java.io.IOException;
+import com.zfliu.fallingsnow.Tools.Resource;
 
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;

@@ -1,4 +1,4 @@
-package com.zfliu.fallingsnow.Utils;
+package com.zfliu.fallingsnow.Tools;
 
 import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.R;
