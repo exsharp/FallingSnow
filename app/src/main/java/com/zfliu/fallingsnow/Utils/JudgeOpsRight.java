@@ -51,7 +51,7 @@ public class JudgeOpsRight {
         return true;
     }
 
-    public boolean CheckNetwork(Context context){
+    public static boolean CheckNetwork(Context context){
         if(context!=null){
             ConnectivityManager connectivityManager =
                     (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
