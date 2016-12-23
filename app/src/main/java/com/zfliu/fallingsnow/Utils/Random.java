@@ -3,17 +3,23 @@ package com.zfliu.fallingsnow.Utils;
 public class Random {
     private static final java.util.Random RANDOM = new java.util.Random();
 
-    public float getRandom(float lower, float upper) {
+    public static float getRandom(float lower, float upper) {
         float min = Math.min(lower, upper);
         float max = Math.max(lower, upper);
         return getRandom(max - min) + min;
     }
 
-    public float getRandom(float upper) {
+    public static int getRandom(int lower,int upper){
+        int min = Math.min(lower, upper);
+        int max = Math.max(lower, upper);
+        return getRandom(max - min) + min;
+    }
+
+    public static float getRandom(float upper) {
         return RANDOM.nextFloat() * upper;
     }
 
-    public int getRandom(int upper) {
+    public static int getRandom(int upper) {
         return RANDOM.nextInt(upper);
     }
 

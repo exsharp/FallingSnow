@@ -1,6 +1,7 @@
 package com.zfliu.fallingsnow.Tools;
 
 import android.content.SharedPreferences;
+import android.util.DisplayMetrics;
 
 import com.zfliu.fallingsnow.CtxApplication;
 
@@ -40,5 +41,10 @@ public class Runtime {
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("PhoneNumber",number);
         editor.apply();
+    }
+
+    public static DisplayMetrics getDisplayMetrics(){
+        DisplayMetrics dm =CtxApplication.getContext().getResources().getDisplayMetrics();
+        return dm;
     }
 }

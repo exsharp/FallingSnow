@@ -70,15 +70,7 @@ public class GuideActivity extends AppCompatActivity {
         super.onDestroy();
         stopService(SMSServiceIntent);
     }
-
-    private void initView(){
-
-    }
-
-    private void initEvent(){
-
-    }
-
+    
     public void doClick(View v){
         AcpOptions options;
         AcpListener listener;

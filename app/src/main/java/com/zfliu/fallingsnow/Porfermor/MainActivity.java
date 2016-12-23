@@ -1,11 +1,8 @@
 package com.zfliu.fallingsnow.Porfermor;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
@@ -38,6 +35,17 @@ public class MainActivity extends AppCompatActivity {
         initEvent();
     }
 
+    private void checkFirstStart(){
+        if (Runtime.isFirstTime()) {
+            Intent intent = new Intent(this, GuideActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            serviceIntent = new Intent(this,MainService.class);
+            //startService(serviceIntent);
+        }
+    }
+
     private void initView(){
         tgBtnOnOff = (ToggleButton) findViewById(R.id.btn_OnOff);
         et_inputContent = (EditText) findViewById(R.id.et_inputContent);
@@ -57,44 +65,45 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkFirstStart(){
-        if (Runtime.isFirstTime()) {
-            Intent intent = new Intent(this, GuideActivity.class);
-            startActivity(intent);
-            finish();
-        }else{
-            serviceIntent = new Intent(this,MainService.class);
-            startService(serviceIntent);
-            GifView view = (GifView)findViewById(R.id.gif);
-            view.setGifResource(R.raw.chr);
+    private void sendMsg(){
+        String phoneNumber = et_inputPhone.getText().toString();
+        String msgContent = et_inputContent.getText().toString();
+        msgContent = msgContent.replace("\\","");
+        if(phoneNumber.length()!=11){
+            Toast.makeText(MainActivity.this,"手机号码输入有误!",Toast.LENGTH_SHORT).show();
+            return;
         }
+        if(msgContent.length()<1){
+            Toast.makeText(MainActivity.this,"祝福语不能为空！",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        HTTP.Post(phoneNumber,msgContent,new HTTP.OnHttpStatusListener(){
+            @Override
+            public void Ok(String text) {
+                Toast.makeText(getApplicationContext(),"发送成功",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void Error() {
+                if (JudgeOpsRight.CheckNetwork(getApplicationContext())){
+                    Toast.makeText(MainActivity.this,"发送失败，原因挺复杂",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this,"发送失败，可能是网络没开启",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void doClick(View view){
-        Intent intent;
         switch (view.getId()){
             case R.id.btn_send:
-                String phoneNumber = et_inputPhone.getText().toString();
-                String msgContent = et_inputContent.getText().toString();
-                if(phoneNumber.length()!=11){
-                    Toast.makeText(MainActivity.this,"手机号码输入有误!",Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                if(msgContent.length()<1){
-                    Toast.makeText(MainActivity.this,"祝福语不能为空！",Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                if(!(new JudgeOpsRight()).CheckNetwork(MainActivity.this)){
-                    Toast.makeText(MainActivity.this,"请检查网络连接",Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                HTTP.Post(phoneNumber,msgContent,null);
+                sendMsg();
                 break;
             case R.id.btn_Desktop:
                 moveTaskToBack(isFinishing());
                 break;
             case R.id.imgBtn:
-                intent = new Intent(this,GuideActivity.class);
+                Intent intent = new Intent(this,GuideActivity.class);
                 startActivity(intent);
                 finish();
                 break;

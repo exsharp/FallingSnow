@@ -32,6 +32,11 @@ public class WindowParams extends LayoutParams {
         height = WindowManager.LayoutParams.MATCH_PARENT;
     }
 
+    public void setPosition(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
     public static WindowParams CreateParams(Point point,boolean isFullScreen){
         WindowParams params = new WindowParams();
         params.defaultParams();
@@ -44,6 +49,14 @@ public class WindowParams extends LayoutParams {
             params.height = LayoutParams.WRAP_CONTENT;
         }
 
+        return params;
+    }
+
+    public static WindowParams CreateBothWrapContentParams(){
+        WindowParams params = new WindowParams();
+        params.defaultParams();
+        params.height = LayoutParams.WRAP_CONTENT;
+        params.width = LayoutParams.WRAP_CONTENT;
         return params;
     }
 
