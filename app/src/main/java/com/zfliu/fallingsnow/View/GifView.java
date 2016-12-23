@@ -7,9 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Movie;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.zfliu.fallingsnow.R;
+import com.zfliu.fallingsnow.Tools.Runtime;
+import com.zfliu.fallingsnow.Utils.Windows.WindowParams;
 
 /**
  * Created by zfliu on 12/20/2016.
@@ -57,6 +60,17 @@ public class GifView extends View {
     public GifView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setViewAttributes(context, attrs, defStyle);
+    }
+
+    public WindowParams getParams(){
+        WindowParams params = WindowParams.CreateBothWrapContentParams();
+        DisplayMetrics dm = Runtime.getDisplayMetrics();
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+        int posx = width - movie.width() - width / 10;
+        int posy = height - movie.height() - height / 10;
+        params.setPosition(posx,posy);
+        return params;
     }
 
     @SuppressLint("NewApi")

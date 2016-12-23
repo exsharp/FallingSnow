@@ -4,11 +4,13 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.view.WindowManager;
 
 import com.zfliu.fallingsnow.R;
 import com.zfliu.fallingsnow.Tools.GreetingsCtlr;
 import com.zfliu.fallingsnow.Utils.Windows.WindowMgr;
 import com.zfliu.fallingsnow.Utils.Windows.WindowParams;
+import com.zfliu.fallingsnow.View.GifView;
 import com.zfliu.fallingsnow.View.MarqueeTextView;
 import com.zfliu.fallingsnow.View.SnowView.SnowView;
 
@@ -19,10 +21,13 @@ public class MainService extends Service {
     private MediaPlayer mediaPlayer = null;
     private MarqueeTextView marqueeTextView = null;
     private SnowView snowView = null;
+    private GifView gifTreeView = null;
     private GreetingsCtlr greetingsCtlr = null;
 
     private void createView(){
 
+        gifTreeView = new GifView(getApplicationContext());
+        gifTreeView.setGifResource(R.raw.tree);
         snowView = new SnowView(getApplicationContext());
         marqueeTextView = new MarqueeTextView(getApplicationContext());
         mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.bgm);
@@ -36,8 +41,11 @@ public class MainService extends Service {
         });
         mediaPlayer.start();
 
+
+
         WindowMgr.addView(marqueeTextView,WindowParams.CreateParams(null,false));
         WindowMgr.addView(snowView,snowView.getWindowParams());
+        WindowMgr.addView(gifTreeView,gifTreeView.getParams());
 
         greetingsCtlr.Start();
     }
@@ -46,6 +54,7 @@ public class MainService extends Service {
         mediaPlayer.stop();
         WindowMgr.removeView(marqueeTextView);
         WindowMgr.removeView(snowView);
+        WindowMgr.removeView(gifTreeView);
     }
 
     @Override
