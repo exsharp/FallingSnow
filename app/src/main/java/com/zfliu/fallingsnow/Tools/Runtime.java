@@ -1,6 +1,5 @@
 package com.zfliu.fallingsnow.Tools;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.zfliu.fallingsnow.CtxApplication;

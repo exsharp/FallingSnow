@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.Tools.Runtime;
@@ -45,11 +46,11 @@ public class SmsObserver extends ContentObserver {
             String body = cursor.getString(cursor.getColumnIndex("body"));
             String date = cursor.getString(cursor.getColumnIndex("date"));
             if(address.equals("10086")||address.equals("10010")||address.equals("10001")){
-                System.out.println("Body:"+body);
+                Log.d("Body:",body);
                 boolean status = GetPhoneNumberFromSMSText(body);
                 if(status){
                     Log.d("SmsObserve","获取手机号码成功");
-                    return;//这里可能可以处理不弹出通知栏
+
                 }else{
                     Log.d("SmsObserve","获取手机号码失败");
                 }

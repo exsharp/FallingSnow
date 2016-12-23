@@ -1,22 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/guideJumpBtn"
         android:onClick="doClick"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:text="跳过"/>
+
+    <LinearLayout
+        android:id="@+id/smf_linearLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/guide_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="权限设置引导"
+            android:textSize="20sp"/>
+
+        <ViewFlipper
+            android:id="@+id/smf_viewFlipper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ViewFlipper>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/guide_frame"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content">
     </LinearLayout>
 
 </LinearLayout>

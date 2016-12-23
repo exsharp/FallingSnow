@@ -1,33 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:gravity="center">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="开启短信权限引导页"
-            android:textSize="20sp"/>
 
-        <ViewFlipper
-            android:id="@+id/smf_viewFlipper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ViewFlipper>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:text="获取短信权限"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/smf_NextBtn">
-
-    </LinearLayout>
+        android:id="@+id/smf_getSmsRightBtn"
+        android:onClick="doClick" />
 
     <Button
         android:id="@+id/smf_NextBtn"
@@ -35,8 +19,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:onClick="doClick"
-        android:text="下一步"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true" />
-
-</RelativeLayout>
+        android:text="下一步" />
+</LinearLayout>

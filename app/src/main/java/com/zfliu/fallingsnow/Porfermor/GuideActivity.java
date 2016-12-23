@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 import com.zfliu.fallingsnow.CtxApplication;
+import com.zfliu.fallingsnow.Porfermor.Service.MainService;
 import com.zfliu.fallingsnow.Porfermor.Service.SMSService;
 import com.zfliu.fallingsnow.R;
 import com.zfliu.fallingsnow.Tools.Runtime;
@@ -18,6 +22,7 @@ import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
 import com.zfliu.fallingsnow.Utils.SMS.SendSms;
 import com.zfliu.fallingsnow.View.AlterWinFragment;
 import com.zfliu.fallingsnow.View.SmsFragment;
+
 
 import java.util.List;
 
@@ -33,6 +38,14 @@ public class GuideActivity extends AppCompatActivity {
     private android.app.FragmentTransaction beginTransaction = null;
     private SendSms sendSms;
 
+    private RadioGroup radioGroup;
+    private Button alterWinBtn;
+    private TextView textView;
+    private Button finishBtn;
+
+    static boolean smsRightStatus;
+    static boolean alterRightStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,22 +53,6 @@ public class GuideActivity extends AppCompatActivity {
 
         SMSServiceIntent = new Intent(GuideActivity.this,SMSService.class);
         startService(SMSServiceIntent);
-
-        AcpOptions options = new AcpOptions.Builder().setPermissions(
-                        Manifest.permission.READ_SMS,
-                        Manifest.permission.SEND_SMS).build();
-        AcpListener listener = new AcpListener() {
-            @Override
-            public void onGranted() {
-                Toast.makeText(getApplicationContext(),"可以",Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onDenied(List<String> permissions) {
-                Toast.makeText(getApplicationContext(),"不可以",Toast.LENGTH_LONG).show();
-            }
-        };
-        Acp.getInstance(this).request(options,listener);
 
         sendSms = new SendSms(CtxApplication.getContext());
         judgeOpsRight = new JudgeOpsRight();
@@ -65,6 +62,7 @@ public class GuideActivity extends AppCompatActivity {
         beginTransaction = fragmentManager.beginTransaction();
         beginTransaction.add(R.id.guide_frame,smsFragment);
         beginTransaction.commit();
+
     }
 
     @Override
@@ -73,40 +71,100 @@ public class GuideActivity extends AppCompatActivity {
         stopService(SMSServiceIntent);
     }
 
-    protected void doClick(View v){
+    private void initView(){
+
+    }
+
+    private void initEvent(){
+
+    }
+
+    public void doClick(View v){
+        AcpOptions options;
+        AcpListener listener;
         switch (v.getId()){
+            case R.id.smf_getSmsRightBtn:
+                //开启短信权限
+                options = new AcpOptions.Builder().setPermissions(
+                        Manifest.permission.READ_SMS,
+                        Manifest.permission.SEND_SMS).build();
+                listener = new AcpListener() {
+                    @Override
+                    public void onGranted() {
+                        Toast.makeText(getApplicationContext(),"已开启短信权限",Toast.LENGTH_LONG).show();
+                        smsRightStatus = true;
+                        if (!sendSms.getPhoneNumber() && Runtime.getPhoneNumber() == null){
+                            sendSms.SendChaXunPhoneNumberSms();
+                        }
+                    }
+                    @Override
+                    public void onDenied(List<String> permissions) {
+                        Toast.makeText(getApplicationContext(),"未开启短信权限",Toast.LENGTH_LONG).show();
+                        smsRightStatus = false;
+                    }
+                };
+                Acp.getInstance(this).request(options,listener);
+                break;
             case R.id.smf_NextBtn:
-                if (!sendSms.getPhoneNumber() && Runtime.getPhoneNumber() == null){
-                    sendSms.SendChaXunPhoneNumberSms();
+                //跳转到获取悬浮窗权限页面
+                if(Runtime.getPhoneNumber()!=null&&Runtime.getPhoneNumber().length()==11){
+                    beginTransaction = fragmentManager.beginTransaction();
+                    AlterWinFragment alterWinFragment;
+                    alterWinFragment = new AlterWinFragment();
+                    beginTransaction.replace(R.id.guide_frame,alterWinFragment);
+                    beginTransaction.addToBackStack(null);
+                    beginTransaction.commit();
+                }else {
+                    Toast.makeText(getApplicationContext(),"请先开启短信权限",Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(this,"短信权限设置完成，下一步",Toast.LENGTH_SHORT).show();
-                beginTransaction = fragmentManager.beginTransaction();
-                AlterWinFragment alterWinFragment;
-                alterWinFragment = new AlterWinFragment();
-                beginTransaction.replace(R.id.guide_frame,alterWinFragment);
-                beginTransaction.addToBackStack(null);
-                beginTransaction.commit();
                 break;
             case R.id.awf_FinishBtn:
-                //下一步：判断是否开启悬浮窗权限
-                if(!judgeOpsRight.checkOp(this,24)){
-                    Toast.makeText(this,"未开启悬浮窗权限",Toast.LENGTH_SHORT).show();
-                }else {
-                    //替换当前fragment为短信权限fragment
-                    Toast.makeText(this,"已开启悬浮窗权限",Toast.LENGTH_SHORT).show();
-                    String phoneNumber = Runtime.getPhoneNumber();
-                    if(phoneNumber!=null){
-                        Toast.makeText(this,"本机号码为："+phoneNumber,Toast.LENGTH_SHORT).show();
-                    }
+                ToastDemo.Show();
+                radioGroup = (RadioGroup) findViewById(R.id.awf_radioGroup);
+                textView = (TextView) findViewById(R.id.awf_textView);
+                finishBtn = (Button) findViewById(R.id.awf_FinishBtn);
 
-                    intent = new Intent(this,MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                radioGroup.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.VISIBLE);
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                        if(i == R.id.awf_radioYes){
+                            alterRightStatus = true;
+                            finishBtn.setText("完成引导");
+                        }else{
+                            alterRightStatus = false;
+                            finishBtn.setText("设置权限");
+                        }
+                    }
+                });
+                if(finishBtn.getText().equals("完成引导")){
+                    ToastDemo.Hide();
+                    Runtime.setFirstTimeToFalse();
+                    String phoneNumber = Runtime.getPhoneNumber();
+                    if (phoneNumber != null) {
+                        Toast.makeText(this, "本机号码为：" + phoneNumber, Toast.LENGTH_SHORT).show();
+                    }
+                    intent = new Intent(this, MainService.class);
+                    startService(intent);
+                    moveTaskToBack(isFinishing());
+                }else{
+                    options = new AcpOptions.Builder().setPermissions(
+                            Manifest.permission.SYSTEM_ALERT_WINDOW).build();
+                    listener = new AcpListener() {
+                        @Override
+                        public void onGranted() {
+                        }
+                        @Override
+                        public void onDenied(List<String> permissions) {
+                        }
+                    };
+                    Acp.getInstance(GuideActivity.this).request(options,listener);
                 }
                 break;
+
             case R.id.guideJumpBtn:
                 Runtime.setFirstTimeToFalse();
-
                 intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
                 finish();
