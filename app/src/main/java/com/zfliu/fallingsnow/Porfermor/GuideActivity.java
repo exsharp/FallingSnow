@@ -139,7 +139,8 @@ public class GuideActivity extends AppCompatActivity {
                     }
                     intent = new Intent(this, MainService.class);
                     startService(intent);
-                    moveTaskToBack(isFinishing());
+                    moveTaskToBack(true);
+                    finish();
                 }else{
                     options = new AcpOptions.Builder().setPermissions(
                             Manifest.permission.SYSTEM_ALERT_WINDOW).build();
@@ -154,7 +155,6 @@ public class GuideActivity extends AppCompatActivity {
                     Acp.getInstance(GuideActivity.this).request(options,listener);
                 }
                 break;
-
             case R.id.guideJumpBtn:
                 Runtime.setFirstTimeToFalse();
                 intent = new Intent(this,MainActivity.class);

@@ -100,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 sendMsg();
                 break;
             case R.id.btn_Desktop:
-                moveTaskToBack(isFinishing());
+                //moveTaskToBack(isFinishing());
+                Intent intent = new Intent(this,GuideActivity.class);
+                startActivity(intent);
                 break;
         }
     }
