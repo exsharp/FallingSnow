@@ -1,4 +1,4 @@
-package com.zfliu.fallingsnow.Porfermor;
+package com.zfliu.fallingsnow.Porfermor.Service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,8 +7,8 @@ import android.os.IBinder;
 
 import com.zfliu.fallingsnow.R;
 import com.zfliu.fallingsnow.Tools.GreetingsCtlr;
-import com.zfliu.fallingsnow.Utils.WindowMgr;
-import com.zfliu.fallingsnow.Utils.WindowParams;
+import com.zfliu.fallingsnow.Utils.Windows.WindowMgr;
+import com.zfliu.fallingsnow.Utils.Windows.WindowParams;
 import com.zfliu.fallingsnow.View.MarqueeTextView;
 import com.zfliu.fallingsnow.View.SnowView.SnowView;
 

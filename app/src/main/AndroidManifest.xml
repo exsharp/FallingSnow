@@ -27,9 +27,12 @@
         </activity>
 
         <service
-            android:name=".Porfermor.MainService"
+            android:name=".Porfermor.Service.MainService"
             android:enabled="true"
             android:exported="true">
+        </service>
+        <service
+            android:name=".Porfermor.Service.SMSService">
         </service>
     </application>
 

@@ -1,4 +1,4 @@
-package com.zfliu.fallingsnow.Utils;
+package com.zfliu.fallingsnow.Utils.SMS;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.zfliu.fallingsnow.CtxApplication;
+import com.zfliu.fallingsnow.Tools.Runtime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,6 @@ public class SmsObserver extends ContentObserver {
 
     @Override
     public void onChange(boolean selfChange) {
-        Log.i("info","SmsObserver->onChange()");
         Cursor cursor = mContext.getContentResolver().query(
                 Uri.parse("content://sms/inbox"), null, null, null, "date desc");
 
@@ -49,6 +49,7 @@ public class SmsObserver extends ContentObserver {
                 boolean status = GetPhoneNumberFromSMSText(body);
                 if(status){
                     Log.d("SmsObserve","获取手机号码成功");
+                    return;//这里可能可以处理不弹出通知栏
                 }else{
                     Log.d("SmsObserve","获取手机号码失败");
                 }
@@ -63,15 +64,8 @@ public class SmsObserver extends ContentObserver {
         List<String> list=GetNumberInString(sms);
         for(String str:list){
             if(str.length()==11){
-                SharedPreferences pref = mContext.getSharedPreferences("fallingSnowPref",Context.MODE_PRIVATE);
-                if(!pref.getString("PhoneNumber","0").equals(str)){
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("PhoneNumber",str);
-                    editor.apply();
-                    CtxApplication.setPhoneNumber(str);
-                    return true;
-                }
-                break;
+                Runtime.setPhoneNumber(str);
+                return true;
             }
         }
         return false;

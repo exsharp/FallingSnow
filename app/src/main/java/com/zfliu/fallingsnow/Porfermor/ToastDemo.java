@@ -1,12 +1,11 @@
 package com.zfliu.fallingsnow.Porfermor;
 
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.R;
-import com.zfliu.fallingsnow.Utils.WindowMgr;
-import com.zfliu.fallingsnow.Utils.WindowParams;
+import com.zfliu.fallingsnow.Utils.Windows.WindowMgr;
+import com.zfliu.fallingsnow.Utils.Windows.WindowParams;
 
 /**
  * Created by zfliu on 12/18/2016.

@@ -1,10 +1,11 @@
 package com.zfliu.fallingsnow.Porfermor;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
@@ -12,9 +13,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.zfliu.fallingsnow.CtxApplication;
 import com.zfliu.fallingsnow.Network.HTTP;
+import com.zfliu.fallingsnow.Porfermor.Service.MainService;
 import com.zfliu.fallingsnow.R;
+import com.zfliu.fallingsnow.Tools.Runtime;
 import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
 import com.zfliu.fallingsnow.View.GifView;
 
@@ -53,18 +55,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        SharedPreferences pref = getApplicationContext()
-                .getSharedPreferences("fallingSnowPref", Context.MODE_PRIVATE);
-        String phoneNumber = pref.getString("PhoneNumber","0");
-        if (phoneNumber.length() == 11){
-            CtxApplication.setPhoneNumber(phoneNumber);
-            Toast.makeText(getApplicationContext(),"手机号码是:"+phoneNumber,Toast.LENGTH_LONG).show();
-        }
     }
 
     private void checkFirstStart(){
-        SharedPreferences pref = getSharedPreferences("fallingSnowPref", MODE_PRIVATE);
-        if (pref.getBoolean("startFirst", true)) {
+        if (Runtime.isFirstTime()) {
             Intent intent = new Intent(this, GuideActivity.class);
             startActivity(intent);
             finish();

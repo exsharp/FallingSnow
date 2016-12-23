@@ -1,4 +1,4 @@
-package com.zfliu.fallingsnow.Utils;
+package com.zfliu.fallingsnow.Utils.SMS;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 
 import com.zfliu.fallingsnow.CtxApplication;
+import com.zfliu.fallingsnow.Tools.Runtime;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -47,7 +48,7 @@ public class SendSms {
         if(!ProvidersName.equals("N/A")){
             switch (ProvidersName){
                 case "中国移动":
-                    SendSMS("10086","bj",cxt);
+                    SendSMS("10086","BJ",cxt);
                     break;
                 case "中国联通":
                     SendSMS("10010","CXHM",cxt);
@@ -77,14 +78,7 @@ public class SendSms {
         if(PhoneNumber.length()!=11){
             return false;
         }
-        SharedPreferences pref = cxt.getSharedPreferences("fallingSnowPref", MODE_PRIVATE);
-        if(!pref.getString("PhoneNumber", "0").equals(PhoneNumber)) {
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putString("PhoneNumber", PhoneNumber);
-            editor.apply();
-            CtxApplication.setPhoneNumber(PhoneNumber);
-
-        }
+        Runtime.setPhoneNumber(PhoneNumber);
         return true;
     }
 }
