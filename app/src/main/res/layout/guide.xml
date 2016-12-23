@@ -26,12 +26,13 @@
             android:text="权限设置引导"
             android:textSize="20sp"/>
 
-        <ViewFlipper
-            android:id="@+id/smf_viewFlipper"
+        <com.zfliu.fallingsnow.View.MyViewFliper
+            android:id="@+id/guide_viewFlipper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        </ViewFlipper>
+        </com.zfliu.fallingsnow.View.MyViewFliper>
 
     </LinearLayout>
 

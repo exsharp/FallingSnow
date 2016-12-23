@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
@@ -21,6 +23,7 @@ import com.zfliu.fallingsnow.Tools.Runtime;
 import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
 import com.zfliu.fallingsnow.Utils.SMS.SendSms;
 import com.zfliu.fallingsnow.View.AlterWinFragment;
+import com.zfliu.fallingsnow.View.MyViewFliper;
 import com.zfliu.fallingsnow.View.SmsFragment;
 
 
@@ -33,15 +36,14 @@ import java.util.List;
 public class GuideActivity extends AppCompatActivity {
     private Intent intent = null;
     private Intent SMSServiceIntent = null;
-    private JudgeOpsRight judgeOpsRight;
     private android.app.FragmentManager fragmentManager = null;
     private android.app.FragmentTransaction beginTransaction = null;
     private SendSms sendSms;
 
     private RadioGroup radioGroup;
-    private Button alterWinBtn;
     private TextView textView;
     private Button finishBtn;
+    private MyViewFliper viewFlipper;
 
     static boolean smsRightStatus;
     static boolean alterRightStatus;
@@ -55,7 +57,6 @@ public class GuideActivity extends AppCompatActivity {
         startService(SMSServiceIntent);
 
         sendSms = new SendSms(CtxApplication.getContext());
-        judgeOpsRight = new JudgeOpsRight();
         SmsFragment smsFragment;
         smsFragment = new SmsFragment();
         fragmentManager = getFragmentManager();
@@ -63,7 +64,11 @@ public class GuideActivity extends AppCompatActivity {
         beginTransaction.add(R.id.guide_frame,smsFragment);
         beginTransaction.commit();
 
+        viewFlipper = (MyViewFliper) findViewById(R.id.guide_viewFlipper);
+        viewFlipper.addImageView();
     }
+
+
 
     @Override
     protected void onDestroy() {
