@@ -39,7 +39,7 @@ public class PngSnowView extends View {
         rect = new RectF();
         paint = new Paint();
         matrix = new Matrix();
-        bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
+        bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.mipmap.ic_launcher);
 
         center_x = (int)(bitmap.getWidth() * scale / 2);
         center_y = (int)(bitmap.getHeight() * scale / 2);

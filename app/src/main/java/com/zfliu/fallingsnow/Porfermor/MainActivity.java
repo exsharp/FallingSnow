@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }else{
             serviceIntent = new Intent(this,MainService.class);
-            //startService(serviceIntent);
+            startService(serviceIntent);
         }
     }
 
@@ -101,11 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_Desktop:
                 moveTaskToBack(isFinishing());
-                break;
-            case R.id.imgBtn:
-                Intent intent = new Intent(this,GuideActivity.class);
-                startActivity(intent);
-                finish();
                 break;
         }
     }
