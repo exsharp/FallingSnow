@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         HTTP.Post(phoneNumber,msgContent,new HTTP.OnHttpStatusListener(){
             @Override
             public void Ok(String text) {
-                Toast.makeText(getApplicationContext(),"发送成功",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"发送成功",Toast.LENGTH_SHORT).show();
             }
 
             @Override
