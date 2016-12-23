@@ -3,7 +3,8 @@ package com.zfliu.fallingsnow.Tools;
 import android.os.Handler;
 
 import com.zfliu.fallingsnow.Network.HTTP;
-import com.zfliu.fallingsnow.View.MarqueeTextView;
+import com.zfliu.fallingsnow.View.MTV.IMarqueeTextView;
+import com.zfliu.fallingsnow.View.MTV.MarqueeTextView;
 
 /**
  * Created by zfliu on 12/21/2016.
@@ -15,9 +16,9 @@ public class GreetingsCtlr {
     private static int DEFAULT_GET_PHONE_TIMES = 60 * 1000 / THREAD_SLEEP_TIME;
     private int repeatTimes = 0;
     private Handler handler = null;
-    private MarqueeTextView marquView = null;
+    private IMarqueeTextView marquView = null;
 
-    public GreetingsCtlr(MarqueeTextView marqu){
+    public GreetingsCtlr(IMarqueeTextView marqu){
         handler = new Handler();
         marquView = marqu;
     }

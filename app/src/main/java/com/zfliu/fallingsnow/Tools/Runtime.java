@@ -47,4 +47,12 @@ public class Runtime {
         DisplayMetrics dm =CtxApplication.getContext().getResources().getDisplayMetrics();
         return dm;
     }
+
+    public static boolean isLowerAPI(){
+        int version = android.os.Build.VERSION.SDK_INT;
+        if (version <= 21){
+            return true;
+        }
+        return false;
+    }
 }

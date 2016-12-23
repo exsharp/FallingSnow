@@ -1,20 +1,18 @@
-package com.zfliu.fallingsnow.View;
+package com.zfliu.fallingsnow.View.MTV;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
+import android.view.View;
 import android.widget.TextView;
 
 /**
  * Created by zfliu on 12/23/2016.
  */
 
-public class MarqueeTextView extends TextView implements Runnable {
+public class MarqueeTextView extends TextView implements Runnable,IMarqueeTextView {
 
     private static final int SCROLL_DELAYED = 20;   // 每次滚动时间间隔
     private static final int BEGIN_TO_SCROLL_DELAYED = 1000; // 两次滚动之间时间间隔
@@ -48,6 +46,22 @@ public class MarqueeTextView extends TextView implements Runnable {
         init();
     }
 
+    public void startScroll(int times) {
+        isStop = false;
+        SCROLL_TIMES = times;
+        removeCallbacks(this);  // 清空队列
+        post(this);  // 开始滚动时间
+    }
+
+    public void setTextAndScroll(String text,int times){
+        setText(text);
+        startScroll(times);
+    }
+
+    public boolean isScrolling() {
+        return !isStop;
+    }
+
     private void init(){
         setSingleLine(true);
         setTextSize(TEXT_SIZE);
@@ -61,21 +75,7 @@ public class MarqueeTextView extends TextView implements Runnable {
         int textWidth = (int) paint.measureText(str);
         return textWidth;
     }
-    public void startScroll(int times) {
-        isStop = false;
-        SCROLL_TIMES = times;
-        removeCallbacks(this);  // 清空队列
-        post(this);  // 开始滚动时间
-    }
 
-    public void setTextAndScroll(CharSequence text,int times){
-        setText(text);
-        startScroll(times);
-    }
-
-    public boolean isScrolling() {
-        return !isStop;
-    }
 
     @Override
     public void run() {
@@ -92,6 +92,7 @@ public class MarqueeTextView extends TextView implements Runnable {
                 postDelayed(this, BEGIN_TO_SCROLL_DELAYED);  // SCROLL_DELAYED毫秒之后重新滚动
             }else{
                 isStop = true;
+                times = 0;
             }
         } else {
             postDelayed(this, SCROLL_DELAYED);  // delayed毫秒之后再滚动到指定位置
