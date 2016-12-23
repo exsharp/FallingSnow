@@ -6,12 +6,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
-import com.zfliu.fallingsnow.R;
+/**
+ * Created by zfliu on 12/23/2016.
+ */
 
 public class MarqueeTextView extends TextView implements Runnable {
-
 
     private static final int SCROLL_DELAYED = 20;   // 每次滚动时间间隔
     private static final int BEGIN_TO_SCROLL_DELAYED = 1000; // 两次滚动之间时间间隔
@@ -30,19 +33,18 @@ public class MarqueeTextView extends TextView implements Runnable {
     private boolean isFirstDraw=true;   // 当首次或文本改变时重置
     private boolean isStop = false;     // 开始停止的标记
 
-
     public MarqueeTextView(Context context) {
         super(context);
         init();
     }
 
-    public MarqueeTextView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public MarqueeTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
         init();
     }
 
-    public MarqueeTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public MarqueeTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         init();
     }
 
@@ -53,6 +55,12 @@ public class MarqueeTextView extends TextView implements Runnable {
         getBackground().setAlpha(BG_ALPHA);
     }
 
+    private int getTextWidth() {
+        Paint paint = this.getPaint();
+        String str = this.getText().toString();
+        int textWidth = (int) paint.measureText(str);
+        return textWidth;
+    }
     public void startScroll(int times) {
         isStop = false;
         SCROLL_TIMES = times;
@@ -67,18 +75,6 @@ public class MarqueeTextView extends TextView implements Runnable {
 
     public boolean isScrolling() {
         return !isStop;
-    }
-
-    private int getTextWidth() {
-        Paint paint = this.getPaint();
-        String str = this.getText().toString();
-        int textWidth = (int) paint.measureText(str);
-        return textWidth;
-    }
-
-    @Override
-    public boolean isFocused() {
-        return true;
     }
 
     @Override
@@ -102,6 +98,17 @@ public class MarqueeTextView extends TextView implements Runnable {
         }
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (isFirstDraw){
+            isFirstDraw = false;
+            isStop = false;
+            scrollTo(0,0);
+            initScrollPos();
+        }
+    }
+
     private void initScrollPos(){
         int textWidth = getTextWidth(); // 文本宽度
         int mWidth = getWidth(); // 控件宽度
@@ -117,21 +124,6 @@ public class MarqueeTextView extends TextView implements Runnable {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
         isStop = true;
         isFirstDraw = true;
-
         removeCallbacks(this);
-
-        scrollTo(0,0);
-        initScrollPos();
-
-        post(this);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        if (isFirstDraw) {
-            initScrollPos();
-            isFirstDraw = false;
-        }
     }
 }
