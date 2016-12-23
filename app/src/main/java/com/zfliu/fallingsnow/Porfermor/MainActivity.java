@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void doClick(View view){
+    public void doClick(View view){
         Intent intent;
         switch (view.getId()){
             case R.id.btn_send:

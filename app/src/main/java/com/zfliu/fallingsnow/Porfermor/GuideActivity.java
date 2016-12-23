@@ -73,7 +73,7 @@ public class GuideActivity extends AppCompatActivity {
         stopService(SMSServiceIntent);
     }
 
-    protected void doClick(View v){
+    public void doClick(View v){
         switch (v.getId()){
             case R.id.smf_NextBtn:
                 if (!sendSms.getPhoneNumber() && Runtime.getPhoneNumber() == null){
