@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkFirstStart(){
-        if (Runtime.isFirstTime()) {
+        if (Runtime.isFirstTime() && Runtime.getPhoneNumber() != null) {
             Intent intent = new Intent(this, GuideActivity.class);
             startActivity(intent);
             finish();

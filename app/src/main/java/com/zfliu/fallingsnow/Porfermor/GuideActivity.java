@@ -1,10 +1,12 @@
 package com.zfliu.fallingsnow.Porfermor;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -64,19 +66,19 @@ public class GuideActivity extends AppCompatActivity {
         viewFlipper = (MyViewFliper) findViewById(R.id.guide_viewFlipper);
         viewFlipper.addImageView();
 
-        handler.post(new Runnable() {
+        String text = "因为这个APP要一点权限才能有效果，希望你能看看这里的权限设置引导，" +
+                "看完点击右上角去设置(例子中是小米的，好多东西要弄，如果有通知类短信的话记得允许)，" +
+                "此外如果有类似于“信任这个APP”的选项希望能勾上,APP绝对没有流氓行为= =";
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialog = builder.setMessage(text).setTitle("提示")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void run() {
-                makeText("因为这个效果需要一些权限，希望接下来所有权限部分都能同意",Toast.LENGTH_LONG);
+            public void onClick(DialogInterface dialogInterface, int i) {
+
             }
-        });
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                stepSMS();
-            }
-        },5000);
-        handler.postDelayed(waitForSMS,5000);
+        }).create();
+        dialog.show();
     }
 
 
@@ -107,6 +109,7 @@ public class GuideActivity extends AppCompatActivity {
             }
         };
         Acp.getInstance(this).request(options,listener);
+        handler.post(waitForSMS);
     }
 
     private Runnable waitForSMS = new Runnable() {
@@ -200,10 +203,11 @@ public class GuideActivity extends AppCompatActivity {
                 stepFinish();
                 break;
             case R.id.guide_JumpBtn:
-                Runtime.setFirstTimeToFalse();
-                intent = new Intent(this,MainActivity.class);
-                startActivity(intent);
-                finish();
+                Runtime.jumpToSetting(GuideActivity.this);
+//                Runtime.setFirstTimeToFalse();
+//                intent = new Intent(this,MainActivity.class);
+//                startActivity(intent);
+//                finish();
             default:
                 break;
         }

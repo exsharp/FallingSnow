@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="跳过"
+                android:text="去设置"
                 android:textColor="#999999" />
 
             <ImageView
