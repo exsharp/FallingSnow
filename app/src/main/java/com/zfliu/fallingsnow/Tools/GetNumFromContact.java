@@ -82,7 +82,7 @@ public class GetNumFromContact {
     }
 
     private List<String> getPhoneContacts(String pname) {
-        Uri uri = Uri.parse("content://com.android.contacts/contacts");
+        Uri uri = ContactsContract.Contacts.CONTENT_URI;
         ContentResolver reslover = activity.getContentResolver();
         Cursor cursor = reslover.query(uri, null, null, null, null);
         while (cursor.moveToNext()) {

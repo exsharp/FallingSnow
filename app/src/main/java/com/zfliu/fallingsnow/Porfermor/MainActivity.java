@@ -2,7 +2,9 @@ package com.zfliu.fallingsnow.Porfermor;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toContact(){
+
         contact.getPermission(new AcpListener() {
             @Override
             public void onGranted() {
@@ -109,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
         });
         try{
             contact.startActivityForResult();
-        }finally {}
+        }catch (Exception e){
+            Toast.makeText(MainActivity.this,"不能使用通讯栏",Toast.LENGTH_LONG).show();
+        }
     }
 
     private void sendMsg(){

@@ -1,6 +1,10 @@
 package com.zfliu.fallingsnow.Tools;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 
 import com.zfliu.fallingsnow.CtxApplication;
@@ -54,5 +58,11 @@ public class Runtime {
             return true;
         }
         return false;
+    }
+
+    public static void jumpToSetting(Activity activity){
+        Uri packageURI = Uri.parse("package:" + "com.zfliu.fallingsnow");
+        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
+        activity.startActivityForResult(intent,1);
     }
 }
