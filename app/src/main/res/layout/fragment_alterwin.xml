@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="60dp">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="25dp">
 
         <TextView
             android:id="@+id/awf_textView"
@@ -37,20 +37,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/awf_radioNo"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:checked="true"/>
 
         </RadioGroup>
 
     </LinearLayout>
 
 
-    <Button
+    <LinearLayout
         android:id="@+id/awf_FinishBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:onClick="doClick"
-        android:text="设置权限" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_weight="1">
 
+        <TextView
+            android:id="@+id/awf_setTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置权限"
+            android:textSize="16sp"
+            android:textColor="#999999" />
+
+        <ImageView
+            android:id="@+id/awf_imageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/next" />
+    </LinearLayout>
 
 </LinearLayout>

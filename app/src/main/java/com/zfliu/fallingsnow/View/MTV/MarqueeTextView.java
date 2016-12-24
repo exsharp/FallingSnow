@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class MarqueeTextView extends TextView implements Runnable,IMarqueeTextView {
 
-    private static final int SCROLL_DELAYED = 20;   // 每次滚动时间间隔
+    private static final int SCROLL_DELAYED = 10;   // 每次滚动时间间隔
     private static final int BEGIN_TO_SCROLL_DELAYED = 1000; // 两次滚动之间时间间隔
     private int SCROLL_TIMES = 2; //滚动次数
 

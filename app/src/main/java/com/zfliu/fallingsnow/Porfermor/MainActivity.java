@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         tgBtnOnOff = (ToggleButton) findViewById(R.id.btn_OnOff);
         et_inputContent = (EditText) findViewById(R.id.et_inputContent);
         et_inputPhone = (EditText) findViewById(R.id.et_inputPhone);
+        ((LinearLayout)findViewById(R.id.ll_main)).getBackground().setAlpha(150);
         contact = new GetNumFromContact(this);
     }
 

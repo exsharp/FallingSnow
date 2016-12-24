@@ -7,10 +7,9 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="#f0f0f0"
         android:gravity="center">
-
 
         <Space
             android:layout_width="55sp"
@@ -47,20 +46,17 @@
         </LinearLayout>
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/smf_linearLayout"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1">
-
 
         <com.zfliu.fallingsnow.View.MyViewFliper
             android:id="@+id/guide_viewFlipper"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
 
         </com.zfliu.fallingsnow.View.MyViewFliper>
 
