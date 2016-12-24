@@ -87,6 +87,7 @@ public class GuideActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ToastDemo.Hide();
         stopService(SMSServiceIntent);
     }
 
@@ -165,7 +166,6 @@ public class GuideActivity extends AppCompatActivity {
                     setTextView.setText("完成引导");
                     awfImageView.setBackgroundResource(R.drawable.christmashead);
                     setTextView.setTextColor(getResources().getColor(R.color.colorChristmasRed));
-
                 }else{
                     setTextView.setText("设置权限");
                     awfImageView.setBackgroundResource(R.drawable.next);

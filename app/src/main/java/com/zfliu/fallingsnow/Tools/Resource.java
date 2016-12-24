@@ -14,10 +14,9 @@ public class Resource {
     }
 
     private static int[] gifRes = {
-            R.raw.s1,
             R.raw.s2,
-            R.raw.s5,
             R.raw.s4,
+            R.raw.s5,
             R.raw.s6,
             R.raw.s7,
             R.raw.s8,

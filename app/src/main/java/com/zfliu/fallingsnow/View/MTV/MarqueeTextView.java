@@ -25,7 +25,7 @@ public class MarqueeTextView extends TextView implements Runnable,IMarqueeTextVi
     private int beginScrollX = 0;       // 初始位置
     private int endX;                   // 滚动到哪个位置
 
-    private int speed = 5;              // 滚动速度
+    private int speed = 8;              // 滚动速度
     private int times = 0;              // 已经滚动次数
 
     private boolean isFirstDraw=true;   // 当首次或文本改变时重置
