@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
-            android:hint="请输入11位手机号码"
+            android:hint="ta的11位手机号码"
             android:layout_weight="1"
             android:maxLength="11"
             android:digits="0123456789"/>
@@ -64,7 +64,7 @@
             android:ems="10"
             android:id="@+id/et_inputContent"
             android:layout_weight="1"
-            android:hint="输入在这里的内容会在别人的手机上上面的横栏显示哦"
+            android:hint="祝福语会在ta手机上方的滚动条上显示哦"
             android:maxLength="60"
             android:maxLines="5"
             android:drawableRight="@drawable/quill"/>

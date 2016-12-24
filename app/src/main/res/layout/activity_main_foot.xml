@@ -14,7 +14,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:onClick="doClick">
+        android:onClick="doClick"
+        android:background="@color/colorChristmasblue">
     </Button>
 
     <LinearLayout
@@ -25,6 +26,7 @@
         android:layout_alignLeft="@+id/btn_send"
         android:layout_alignRight="@+id/btn_send"
         android:layout_alignStart="@+id/btn_send"
+        android:layout_marginTop="10dp"
         android:layout_alignEnd="@+id/btn_send">
 
         <ToggleButton
@@ -35,6 +37,7 @@
             android:textOff="开启效果"
             android:textOn="关闭效果"
             android:textColor="#ffffff"
+            android:background="@color/colorChristmasblue"
             android:layout_weight="1" />
 
         <Space
@@ -50,6 +53,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_Desktop"
             android:layout_weight="1"
+            android:background="@color/colorChristmasblue"
             android:onClick="doClick"/>
     </LinearLayout>
 
