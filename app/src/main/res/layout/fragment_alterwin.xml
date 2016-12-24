@@ -13,7 +13,7 @@
             android:id="@+id/awf_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="屏幕中间是否显示雪花图案："
+            android:text="屏幕上方是否出现雪花图案："
             android:textSize="18sp"
             android:visibility="invisible"/>
 

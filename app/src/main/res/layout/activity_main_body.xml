@@ -32,7 +32,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="top">
 
         <TextView
             android:text="输入祝福语:"
@@ -47,7 +48,7 @@
             android:ems="10"
             android:id="@+id/et_inputContent"
             android:layout_weight="1"
-            android:hint="节日快乐\n输入在这里的内容会在别人的手机上上面的横栏显示哦"
+            android:hint="输入在这里的内容会在别人的手机上上面的横栏显示哦"
             android:maxLength="60"
             android:maxLines="5"/>
     </LinearLayout>

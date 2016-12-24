@@ -69,7 +69,6 @@ public class GuideActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -160,7 +159,7 @@ public class GuideActivity extends AppCompatActivity {
                     Acp.getInstance(GuideActivity.this).request(options,listener);
                 }
                 break;
-            case R.id.guideJumpBtn:
+            case R.id.guide_JumpBtn:
                 Runtime.setFirstTimeToFalse();
                 intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
