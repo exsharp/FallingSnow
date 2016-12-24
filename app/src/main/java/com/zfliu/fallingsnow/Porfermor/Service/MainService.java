@@ -23,9 +23,9 @@ public class MainService extends Service {
     private boolean hasInit = false; // 是否已经初始化
 
     private MediaPlayer mediaPlayer = null;
-    private View marqueeTextView = null;
     private SnowView snowView = null;
     private GifView gifTreeView = null;
+    private View marqueeTextView = null;
     private GreetingsCtlr greetingsCtlr = null;
     private RandomGifCtlr randomGifCtlr = null;
 

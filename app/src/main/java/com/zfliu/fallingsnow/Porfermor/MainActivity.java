@@ -80,16 +80,27 @@ public class MainActivity extends AppCompatActivity {
         HTTP.Post(phoneNumber,msgContent,new HTTP.OnHttpStatusListener(){
             @Override
             public void Ok(String text) {
-                Toast.makeText(MainActivity.this,"发送成功",Toast.LENGTH_SHORT).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        et_inputContent.setText("");
+                        Toast.makeText(MainActivity.this,"发送成功",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void Error() {
-                if (JudgeOpsRight.CheckNetwork(getApplicationContext())){
-                    Toast.makeText(MainActivity.this,"发送失败，原因挺复杂",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(MainActivity.this,"发送失败，可能是网络没开启",Toast.LENGTH_SHORT).show();
-                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (JudgeOpsRight.CheckNetwork(getApplicationContext())){
+                            Toast.makeText(MainActivity.this,"发送失败，原因挺复杂",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(MainActivity.this,"发送失败，可能是网络没开启",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }

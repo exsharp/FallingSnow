@@ -3,8 +3,10 @@ package com.zfliu.fallingsnow.View.SnowView;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.zfliu.fallingsnow.Tools.Runtime;
 import com.zfliu.fallingsnow.Utils.*;
 
 class SnowFlake {
@@ -17,6 +19,7 @@ class SnowFlake {
     private static final float INCREMENT_UPPER = 4f;
     private static final float FLAKE_SIZE_LOWER = 7f;
     private static final float FLAKE_SIZE_UPPER = 20f;
+    private static final float LOWER_RESOLUTION_SCALE = 0.7F;
 
     private final Random random;
     private final Point position;
@@ -29,7 +32,15 @@ class SnowFlake {
         Random random = new Random();
         float angle = random.getRandom(ANGLE_SEED) / ANGLE_SEED * ANGE_RANGE + HALF_PI - HALF_ANGLE_RANGE;
         float increment = random.getRandom(INCREMENT_LOWER, INCREMENT_UPPER);
-        float flakeSize = random.getRandom(FLAKE_SIZE_LOWER, FLAKE_SIZE_UPPER);
+        float flakeSize = 0;
+        DisplayMetrics dm = Runtime.getDisplayMetrics();
+        if (dm.widthPixels < 1080){
+            flakeSize = random.getRandom(
+                    FLAKE_SIZE_LOWER * LOWER_RESOLUTION_SCALE,
+                    FLAKE_SIZE_UPPER * LOWER_RESOLUTION_SCALE);
+        }else{
+            flakeSize = random.getRandom(FLAKE_SIZE_LOWER, FLAKE_SIZE_UPPER);
+        }
 
         int x = random.getRandom(width);
         //int y = random.getRandom(height);
