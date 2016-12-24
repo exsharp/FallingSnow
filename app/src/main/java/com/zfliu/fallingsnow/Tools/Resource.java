@@ -16,8 +16,10 @@ public class Resource {
     private static int[] gifRes = {
             R.raw.s1,
             R.raw.s2,
-            R.raw.s3,
+            R.raw.s5,
             R.raw.s4,
+            R.raw.s6,
+            R.raw.s7,
     };
     public static int gifResource(){
         int idx = Random.getRandom(0,gifRes.length);
