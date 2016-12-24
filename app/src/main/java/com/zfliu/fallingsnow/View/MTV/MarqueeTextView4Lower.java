@@ -28,8 +28,15 @@ public class MarqueeTextView4Lower extends LinearLayout implements IMarqueeTextV
     }
 
     private void initView(Context context){
+        LayoutParams params = new LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.WRAP_CONTENT);
+        setLayoutParams(params);
+
         mtv = new MarqueeTextView(context);
+        mtv.setLayoutParams(params);
         addView(mtv);
+
     }
 
     @Override
@@ -50,5 +57,10 @@ public class MarqueeTextView4Lower extends LinearLayout implements IMarqueeTextV
     @Override
     public boolean isScrolling() {
         return mtv.isScrolling();
+    }
+
+    @Override
+    public boolean post(Runnable action) {
+        return mtv.post(action);
     }
 }
