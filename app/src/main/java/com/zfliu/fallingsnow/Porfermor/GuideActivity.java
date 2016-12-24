@@ -2,11 +2,13 @@ package com.zfliu.fallingsnow.Porfermor;
 
 import android.Manifest;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,11 +44,10 @@ public class GuideActivity extends AppCompatActivity {
 
     private RadioGroup radioGroup;
     private TextView textView;
-    private Button finishBtn;
+    private ImageView awfImageView;
+    private TextView setTextView;
     private MyViewFliper viewFlipper;
 
-    static boolean smsRightStatus;
-    static boolean alterRightStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,16 +88,12 @@ public class GuideActivity extends AppCompatActivity {
                 listener = new AcpListener() {
                     @Override
                     public void onGranted() {
-                        Toast.makeText(getApplicationContext(),"已开启短信权限",Toast.LENGTH_LONG).show();
-                        smsRightStatus = true;
                         if (!sendSms.getPhoneNumber() && Runtime.getPhoneNumber() == null){
                             sendSms.SendChaXunPhoneNumberSms();
                         }
                     }
                     @Override
                     public void onDenied(List<String> permissions) {
-                        Toast.makeText(getApplicationContext(),"未开启短信权限",Toast.LENGTH_LONG).show();
-                        smsRightStatus = false;
                     }
                 };
                 Acp.getInstance(this).request(options,listener);
@@ -104,6 +101,7 @@ public class GuideActivity extends AppCompatActivity {
             case R.id.smf_NextBtn:
                 //跳转到获取悬浮窗权限页面
                 if(Runtime.getPhoneNumber()!=null&&Runtime.getPhoneNumber().length()==11){
+                    Toast.makeText(this,"本机号码："+Runtime.getPhoneNumber(),Toast.LENGTH_SHORT).show();
                     beginTransaction = fragmentManager.beginTransaction();
                     AlterWinFragment alterWinFragment;
                     alterWinFragment = new AlterWinFragment();
@@ -111,14 +109,15 @@ public class GuideActivity extends AppCompatActivity {
                     beginTransaction.addToBackStack(null);
                     beginTransaction.commit();
                 }else {
-                    Toast.makeText(getApplicationContext(),"请先开启短信权限",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"未获取本机号码",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.awf_FinishBtn:
                 ToastDemo.Show();
                 radioGroup = (RadioGroup) findViewById(R.id.awf_radioGroup);
                 textView = (TextView) findViewById(R.id.awf_textView);
-                finishBtn = (Button) findViewById(R.id.awf_FinishBtn);
+                setTextView = (TextView) findViewById(R.id.awf_setTextView);
+                awfImageView = (ImageView) findViewById(R.id.awf_imageView);
 
                 radioGroup.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.VISIBLE);
@@ -126,21 +125,20 @@ public class GuideActivity extends AppCompatActivity {
                     @Override
                     public void onCheckedChanged(RadioGroup radioGroup, int i) {
                         if(i == R.id.awf_radioYes){
-                            alterRightStatus = true;
-                            finishBtn.setText("完成引导");
+                            setTextView.setText("完成引导");
+                            awfImageView.setBackgroundResource(R.drawable.christmashead);
+                            setTextView.setTextColor(getResources().getColor(R.color.colorChristmasRed));
+
                         }else{
-                            alterRightStatus = false;
-                            finishBtn.setText("设置权限");
+                            setTextView.setText("设置权限");
+                            awfImageView.setBackgroundResource(R.drawable.next);
+                            setTextView.setTextColor(getResources().getColor(R.color.colorGray));
                         }
                     }
                 });
-                if(finishBtn.getText().equals("完成引导")){
+                if(setTextView.getText().equals("完成引导")){
                     ToastDemo.Hide();
                     Runtime.setFirstTimeToFalse();
-                    String phoneNumber = Runtime.getPhoneNumber();
-                    if (phoneNumber != null) {
-                        Toast.makeText(this, "本机号码为：" + phoneNumber, Toast.LENGTH_SHORT).show();
-                    }
                     intent = new Intent(this, MainService.class);
                     startService(intent);
                     moveTaskToBack(true);

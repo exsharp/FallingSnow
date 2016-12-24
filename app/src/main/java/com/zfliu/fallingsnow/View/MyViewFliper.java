@@ -62,7 +62,7 @@ public class MyViewFliper extends ViewFlipper {
 
     private ImageView getImageView(int id){
         ImageView imageView = new ImageView(context);
-        imageView.setImageResource(id);
+        imageView.setBackgroundResource(id);
         return imageView;
     }
 
