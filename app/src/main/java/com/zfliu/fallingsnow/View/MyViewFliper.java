@@ -79,14 +79,19 @@ public class MyViewFliper extends ViewFlipper {
                 //向右滑动
                 Log.d("MotionEvent","UP");
                 if(event.getX()-startX>50){
+                    setInAnimation(context,R.anim.left_in);
+                    setOutAnimation(context,R.anim.left_out);
                     showPrevious();
                 }
                 //向左滑动
                 if(startX-event.getX()>50) {
+                    setInAnimation(context,R.anim.right_in);
+                    setOutAnimation(context,R.anim.right_out);
                     showNext();
                 }
                 return true;
         }
         return super.onTouchEvent(event);
     }
+
 }
