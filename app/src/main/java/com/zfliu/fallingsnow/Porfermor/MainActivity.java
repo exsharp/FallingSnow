@@ -1,21 +1,29 @@
 package com.zfliu.fallingsnow.Porfermor;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.mylhyl.acp.Acp;
+import com.mylhyl.acp.AcpListener;
+import com.mylhyl.acp.AcpOptions;
 import com.zfliu.fallingsnow.Network.HTTP;
 import com.zfliu.fallingsnow.Porfermor.Service.MainService;
 import com.zfliu.fallingsnow.R;
+import com.zfliu.fallingsnow.Tools.GetNumFromContact;
 import com.zfliu.fallingsnow.Tools.Runtime;
 import com.zfliu.fallingsnow.Utils.JudgeOpsRight;
 import com.zfliu.fallingsnow.View.GifView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText et_inputPhone;
     private EditText et_inputContent;
     private Intent serviceIntent;
+    private GetNumFromContact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,20 @@ public class MainActivity extends AppCompatActivity {
         checkFirstStart();
         initView();
         initEvent();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        contact.onActivityResult(requestCode,resultCode,data,contact.new ContactListener(){
+            @Override
+            public void onSucc(String name, String tele) {
+                if (tele.length() != 11){
+                    Toast.makeText(MainActivity.this,"不是合法的号码",Toast.LENGTH_LONG).show();
+                }else{
+                    et_inputPhone.setText(tele);
+                }
+            }
+        });
     }
 
     private void checkFirstStart(){
@@ -50,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         tgBtnOnOff = (ToggleButton) findViewById(R.id.btn_OnOff);
         et_inputContent = (EditText) findViewById(R.id.et_inputContent);
         et_inputPhone = (EditText) findViewById(R.id.et_inputPhone);
+        contact = new GetNumFromContact(this);
     }
 
     private void initEvent(){
@@ -63,6 +87,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void toContact(){
+        contact.getPermission(new AcpListener() {
+            @Override
+            public void onGranted() {
+            }
+
+            @Override
+            public void onDenied(List<String> permissions) {
+                Toast.makeText(MainActivity.this,"如果不能获得这个权限的话，可能没办法自动输入好嘛",Toast.LENGTH_LONG).show();
+            }
+        });
+        try{
+            contact.startActivityForResult();
+        }finally {}
     }
 
     private void sendMsg(){
@@ -107,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void doClick(View view){
         switch (view.getId()){
+            case R.id.bt_toContact:
+                toContact();
+                break;
             case R.id.btn_send:
                 sendMsg();
                 break;

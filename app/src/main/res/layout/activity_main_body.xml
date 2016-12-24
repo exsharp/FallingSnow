@@ -27,6 +27,12 @@
             android:layout_weight="1"
             android:maxLength="11"
             android:digits="0123456789"/>
+        <Button
+            android:id="@+id/bt_toContact"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:onClick="doClick"
+            android:text="点我"/>
     </LinearLayout>
 
     <LinearLayout
