@@ -68,7 +68,8 @@ public class GuideActivity extends AppCompatActivity {
 
         String text = "因为这个APP要一点权限才能有效果，希望你能看看这里的权限设置引导，" +
                 "看完点击右上角去设置(例子中是小米的，好多东西要弄，如果有通知类短信的话记得允许)，" +
-                "此外如果有类似于“信任这个APP”的选项希望能勾上,APP绝对没有流氓行为= =";
+                "此外如果有类似于“信任这个APP”的选项希望能勾上,APP绝对没有流氓行为= =\n"+
+                "需要这些权限：\n1、读、写短信（小米还有一个通知类短信选项(有的话)）\n2、悬浮窗";
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog dialog = builder.setMessage(text).setTitle("提示")
@@ -159,6 +160,7 @@ public class GuideActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if(i == R.id.awf_radioYes){
+                    ToastDemo.Hide();
                     setTextView.setText("完成引导");
                     awfImageView.setBackgroundResource(R.drawable.christmashead);
                     setTextView.setTextColor(getResources().getColor(R.color.colorChristmasRed));
