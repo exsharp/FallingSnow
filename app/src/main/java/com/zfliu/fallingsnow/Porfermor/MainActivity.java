@@ -48,12 +48,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         contact.onActivityResult(requestCode,resultCode,data,contact.new ContactListener(){
             @Override
-            public void onSucc(String name, String tele) {
-                if (tele.length() != 11){
-                    Toast.makeText(MainActivity.this,"不是合法的号码",Toast.LENGTH_LONG).show();
-                }else{
-                    et_inputPhone.setText(tele);
+            public void onSucc(String name, List<String> nums) {
+                for (String num : nums){
+                    if (num.length() == 11){
+                        et_inputPhone.setText(num);
+                        return;
+                    }
                 }
+                Toast.makeText(MainActivity.this,"不是合法的号码",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFail() {
+                Toast.makeText(MainActivity.this,"可能不能使用搜索框",Toast.LENGTH_LONG).show();
             }
         });
     }
