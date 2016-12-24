@@ -67,8 +67,8 @@ public class GifView extends View {
         DisplayMetrics dm = Runtime.getDisplayMetrics();
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        int posx = width - movie.width() - width / 10;
-        int posy = height - movie.height() - height / 10;
+        int posx = width - movie.width() - width / 20;
+        int posy = height - movie.height() - height / 20;
         params.setPosition(posx,posy);
         return params;
     }
