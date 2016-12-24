@@ -54,6 +54,9 @@ public class GuideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide);
 
+        intent = new Intent(this,MainService.class);
+        stopService(intent);
+
         SMSServiceIntent = new Intent(GuideActivity.this,SMSService.class);
         startService(SMSServiceIntent);
 
