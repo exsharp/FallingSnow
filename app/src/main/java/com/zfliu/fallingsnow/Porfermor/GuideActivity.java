@@ -65,6 +65,7 @@ public class GuideActivity extends AppCompatActivity {
 
         viewFlipper = (MyViewFliper) findViewById(R.id.guide_viewFlipper);
         viewFlipper.addImageView();
+//        viewFlipper.autoFliper(2000);
 
         String text = "因为这个APP要一点权限才能有效果，希望你能看看这里的权限设置引导，" +
                 "看完点击右上角去设置(例子中是小米的，好多东西要弄，如果有通知类短信的话记得允许)，" +

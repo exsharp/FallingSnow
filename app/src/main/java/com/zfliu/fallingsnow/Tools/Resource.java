@@ -20,6 +20,7 @@ public class Resource {
             R.raw.s4,
             R.raw.s6,
             R.raw.s7,
+            R.raw.s8,
     };
     public static int gifResource(){
         int idx = Random.getRandom(0,gifRes.length);

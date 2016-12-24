@@ -55,6 +55,13 @@ public class MyViewFliper extends ViewFlipper {
         }
     }
 
+//    public void autoFliper(int ms){
+//        setFlipInterval(ms);
+//        setInAnimation(context, R.anim.right_in);
+//        setOutAnimation(context, R.anim.right_out);
+//        startFlipping();
+//    }
+
     public void addView(int id) {
         ImageView image = getImageView(id);
         super.addView(image);
@@ -72,12 +79,14 @@ public class MyViewFliper extends ViewFlipper {
         // TODO Auto-generated method stub
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+//                stopFlipping();
                 startX=event.getX();
                 Log.d("MotionEvent","down");
                 return true;
             case MotionEvent.ACTION_UP:
                 //向右滑动
                 Log.d("MotionEvent","UP");
+//                startFlipping();
                 if(event.getX()-startX>50){
                     setInAnimation(context,R.anim.left_in);
                     setOutAnimation(context,R.anim.left_out);
